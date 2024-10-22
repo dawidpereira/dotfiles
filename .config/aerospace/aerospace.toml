@@ -230,10 +230,6 @@ if.app-id = 'com.apple.finder'
 run = "move-node-to-workspace O"
 
 [[on-window-detected]]
-if.app-id = 'com.todoist.mac.Todoist'
-run = "move-node-to-workspace Y"
-
-[[on-window-detected]]
 if.app-id = 'com.cron.electron'
 run = "move-node-to-workspace K"
 
@@ -255,5 +251,5 @@ run = "move-node-to-workspace I"
 
 [[on-window-detected]]
 if.app-id = 'com.jetbrains.rider'
-run = "move-node-to-workspace I"
+run = "move-node-to-workspace R"
 
