@@ -26,6 +26,7 @@
         pkgs.cargo
         pkgs.mkalias
         pkgs.yazi
+        pkgs.drive
         pkgs.gh
         pkgs.tmux
         pkgs.nushell
@@ -84,6 +85,7 @@
         ];
         casks = [
           "ghostty"
+          "google-drive"
         ];
         # masApps = {
         # };
