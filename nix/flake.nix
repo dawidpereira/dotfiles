@@ -62,7 +62,6 @@
           expose-group-apps = true;
           launchanim = false;
         };
-
         WindowManager = {
           EnableStandardClickToShowDesktop = false;
           StandardHideDesktopIcons = true;
@@ -70,11 +69,12 @@
 
         NSGlobalDomain = {
           _HIHideMenuBar = true;  # Hide top menu bar
+          AppleICUForce24HourTime = true;
+          KeyRepeat = 2;
         };
+
         finder.FXPreferredViewStyle = "clmv";
         loginwindow.GuestEnabled  = false;
-        NSGlobalDomain.AppleICUForce24HourTime = true;
-        NSGlobalDomain.KeyRepeat = 2;
       };
 
       homebrew = {
