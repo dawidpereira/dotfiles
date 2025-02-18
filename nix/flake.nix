@@ -34,6 +34,7 @@
         pkgs.starship
         pkgs.arc-browser
         pkgs.aerospace
+        pkgs.docker
         pkgs.obsidian
         pkgs.raycast
         pkgs.rust-analyzer
