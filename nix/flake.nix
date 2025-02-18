@@ -38,7 +38,7 @@
         pkgs.colima
         pkgs.obsidian
         pkgs.raycast
-        pkgs.rust-analyzer
+        pkgs.rustup
       ];
 
       fonts.packages = [
