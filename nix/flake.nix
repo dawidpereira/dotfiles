@@ -36,6 +36,7 @@
         pkgs.aerospace
         pkgs.obsidian
         pkgs.raycast
+        pkgs.rust-analyzer
       ];
 
       fonts.packages = [
