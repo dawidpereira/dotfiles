@@ -11,6 +11,7 @@ $env.PATH = ($env.PATH | append "/opt/homebrew/bin") # For macOS users with Home
 $env.PATH = ($env.PATH | append "/Users/dawidpereira/.nix-profile/bin")
 $env.PATH = ($env.PATH | append "/run/current-system/sw/bin")
 $env.PATH = ($env.PATH | append "/nix/var/nix/profiles/default/bin")
+$env.PATH = ($env.PATH | append "/usr/local/share/dotnet")
 
 $env.config.buffer_editor = "nvim"
 
