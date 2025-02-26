@@ -38,6 +38,8 @@
         pkgs.colima
         pkgs.obsidian
         pkgs.raycast
+        pkgs.telegram-desktop
+        pkgs.discord
         pkgs.rustup
       ];
 
