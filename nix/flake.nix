@@ -41,6 +41,7 @@
         pkgs.telegram-desktop
         pkgs.discord
         pkgs.rustup
+        pkgs.sesh
       ];
 
       fonts.packages = [
