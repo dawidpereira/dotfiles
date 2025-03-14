@@ -75,7 +75,7 @@
           };
 
         NSGlobalDomain = {
-          _HIHideMenuBar = true;  # Hide top menu bar
+          _HIHideMenuBar = false;  # Hide top menu bar
           AppleICUForce24HourTime = true;
           KeyRepeat = 2;
         };
