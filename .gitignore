@@ -1,3 +1,5 @@
 flake.lock
 vendor
 history.txt
+
+*.DS_Store
