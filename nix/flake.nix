@@ -42,6 +42,8 @@
         pkgs.discord
         pkgs.rustup
         pkgs.sesh
+        pkgs.kubectx
+        pkgs.btop
       ];
 
       fonts.packages = [
