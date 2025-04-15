@@ -40,7 +40,6 @@
         pkgs.raycast
         pkgs.telegram-desktop
         pkgs.discord
-        pkgs.rustup
         pkgs.sesh
         pkgs.kubectx
         pkgs.btop
