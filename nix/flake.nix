@@ -89,6 +89,8 @@
         enable = true;
         brews = [
           # "mas"
+          "rustup"
+          "rust-analyzer"
         ];
         casks = [
           "ghostty"
