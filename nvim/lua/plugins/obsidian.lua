@@ -3,6 +3,7 @@ return {
 	version = "*", -- Use the latest stable version
 	dependencies = {
 		"nvim-lua/plenary.nvim", -- Required dependency
+		"nvim-telescope/telescope.nvim", -- Required dependency
 	},
 	opts = {
 		workspaces = {
