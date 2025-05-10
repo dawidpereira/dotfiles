@@ -25,7 +25,7 @@ $ bash build_symlinks.sh
 ```
 
 ## Applications & Plugins Overview
->> [!NOTE]
+> [!NOTE]
 > The initial setup was based on Nix and Darwin. However, due to frequent compatibility issues—primarily from differing installation paths and interdependent plugins requiring manual path configuration this repository now favors a more conventional approach.
 
 ### Apliations
