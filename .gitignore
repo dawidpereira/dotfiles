@@ -1,4 +1,5 @@
 flake.lock
+tmux/plugins/
 vendor
 history.txt
 

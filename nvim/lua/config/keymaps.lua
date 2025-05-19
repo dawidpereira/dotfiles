@@ -39,3 +39,14 @@ keymap.set("n", "<C-Space>", "<Cmd>NvimTmuxNavigateNavigateNext<CR>", { silent =
 
 -- Press 'U' for redo
 keymap.set("n", "U", "<C-r>", defaultOpts)
+
+-- Snacks Explorer keymaps
+local snacks_explorer = require("snacks.explorer")
+
+vim.keymap.set("n", "<leader>e", function()
+	snacks_explorer.open({ root = true })
+end, { desc = "Explorer Snacks (root dir)" })
+
+vim.keymap.set("n", "<leader>E", function()
+	snacks_explorer.open({ root = false })
+end, { desc = "Explorer Snacks (cwd)" })
