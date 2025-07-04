@@ -50,3 +50,20 @@ end, { desc = "Explorer Snacks (root dir)" })
 vim.keymap.set("n", "<leader>E", function()
 	snacks_explorer.open({ root = false })
 end, { desc = "Explorer Snacks (cwd)" })
+
+-- Screenshot keybindings
+vim.keymap.set("n", "<leader>oq", function()
+	local cmd = vim.fn.expand("~/dotfiles/scripts/screenshot_area.sh")
+	local output = vim.fn.system(cmd)
+	if output and output ~= "" then
+		print(vim.trim(output))
+	end
+end, { desc = "Take area screenshot and copy path" })
+
+vim.keymap.set("n", "<leader>oQ", function()
+	local cmd = vim.fn.expand("~/dotfiles/scripts/screenshot_full.sh")
+	local output = vim.fn.system(cmd)
+	if output and output ~= "" then
+		print(vim.trim(output))
+	end
+end, { desc = "Take full screenshot and copy path" })
