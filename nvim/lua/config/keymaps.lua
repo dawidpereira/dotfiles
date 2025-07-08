@@ -67,3 +67,8 @@ vim.keymap.set("n", "<leader>oQ", function()
 		print(vim.trim(output))
 	end
 end, { desc = "Take full screenshot and copy path" })
+
+-- Copy context keybinding
+vim.keymap.set({ "n", "v" }, "<leader>cy", function()
+	require("config.copy_context").copy_context()
+end, { desc = "Copy context (selected text + filename or just filename)" })
