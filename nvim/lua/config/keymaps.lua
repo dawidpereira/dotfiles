@@ -72,3 +72,6 @@ end, { desc = "Take full screenshot and copy path" })
 vim.keymap.set({ "n", "v" }, "<leader>cy", function()
 	require("config.copy_context").copy_context()
 end, { desc = "Copy context (selected text + filename or just filename)" })
+
+-- Global quit keybinding (close nvim)
+vim.keymap.set("n", "<C-q>", "<cmd>qa<cr>", { desc = "Quit nvim" })

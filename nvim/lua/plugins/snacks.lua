@@ -10,5 +10,10 @@ return {
 				},
 			},
 		},
+		lazygit = {
+			env = {
+				SHELL = "/bin/zsh",
+			},
+		},
 	},
 }
