@@ -69,3 +69,7 @@ def tmux_connect_sesh [] {
         return
     }
 }
+
+
+# Quetty Development Setup  
+alias quetty = ^/Users/dawidpereira/repos/quetty/target/release/quetty
