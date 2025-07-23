@@ -56,6 +56,15 @@
 - Follow OWASP security guidelines
 - Review all external dependencies before adding
 
+### Blocked Command Handling
+When a command is blocked by security hooks:
+- STOP immediately and do not try alternative approaches
+- List the exact command(s) that were blocked
+- Provide clear instructions for the user to execute manually if needed
+- WAIT for user confirmation before proceeding with any other tasks
+- Example response: "The command `rm -rf /important/` was blocked. If you want to proceed, please run this command manually in your terminal and let me know when complete."
+- NEVER attempt to bypass security restrictions
+
 ## Git Workflow
 
 ### Commit Guidelines

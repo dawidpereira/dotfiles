@@ -3,6 +3,7 @@ import json
 import sys
 import re
 import subprocess
+import platform
 
 def is_dangerous_rm_command(command):
     if not command:
@@ -36,6 +37,12 @@ def is_env_file_access(file_path, command=""):
         return True
     
     return False
+
+def play_alert_sound():
+    """Play an alert sound if on macOS, otherwise do nothing."""
+    if platform.system() == 'Darwin':
+        subprocess.run(['afplay', '/System/Library/Sounds/Sosumi.aiff'], 
+                     capture_output=True, check=False)
 
 def has_ai_generated_message(command):
     if 'git commit' not in command:
@@ -85,11 +92,20 @@ def main():
             # Check for dangerous rm commands
             if is_dangerous_rm_command(command):
                 print(f"🚨 SECURITY ALERT: Dangerous command blocked", file=sys.stderr)
-                print(f"Command: {command}", file=sys.stderr)
+                print(f"", file=sys.stderr)
+                print(f"Blocked command: {command}", file=sys.stderr)
+                print(f"", file=sys.stderr)
                 print(f"This command could destroy important files or your system.", file=sys.stderr)
+                print(f"", file=sys.stderr)
+                print(f"⚠️  USER ACTION REQUIRED:", file=sys.stderr)
+                print(f"If you want to proceed with this operation:", file=sys.stderr)
+                print(f"1. Review the command carefully", file=sys.stderr)
+                print(f"2. Run it manually in your terminal if appropriate", file=sys.stderr)
+                print(f"3. Let me know when complete so I can continue", file=sys.stderr)
+                print(f"", file=sys.stderr)
+                print(f"I will wait for your confirmation before proceeding.", file=sys.stderr)
                 
-                subprocess.run(['afplay', '/System/Library/Sounds/Sosumi.aiff'], 
-                             capture_output=True, check=False)
+                play_alert_sound()
                 sys.exit(2)
             
             # Check for AI-generated commit messages
@@ -100,25 +116,42 @@ def main():
                 print(f"- Do NOT include AI co-authorship (e.g., 'Co-Authored-By: Claude')", file=sys.stderr)
                 print(f"- Do NOT add any AI attribution or signatures to commits", file=sys.stderr)
                 
-                subprocess.run(['afplay', '/System/Library/Sounds/Sosumi.aiff'], 
-                             capture_output=True, check=False)
+                play_alert_sound()
                 sys.exit(2)
         
         if tool_name in ['Read', 'Edit', 'Write'] and is_env_file_access(file_path):
-            print(f"🔒 SECURITY: Access to .env file blocked", file=sys.stderr)
-            print(f"File: {file_path}", file=sys.stderr)
-            print(f"Use .env.sample for template files instead.", file=sys.stderr)
+            print(f"🔒 SECURITY: Access to sensitive file blocked", file=sys.stderr)
+            print(f"", file=sys.stderr)
+            print(f"Blocked file access: {file_path}", file=sys.stderr)
+            print(f"Tool attempted: {tool_name}", file=sys.stderr)
+            print(f"", file=sys.stderr)
+            print(f"⚠️  USER ACTION REQUIRED:", file=sys.stderr)
+            print(f"This file contains sensitive information.", file=sys.stderr)
+            print(f"If you need to access this file:", file=sys.stderr)
+            print(f"1. Open it manually in your editor", file=sys.stderr)
+            print(f"2. Make any necessary changes", file=sys.stderr)
+            print(f"3. Let me know when complete", file=sys.stderr)
+            print(f"", file=sys.stderr)
+            print(f"Tip: Use .env.sample for template files instead.", file=sys.stderr)
             
-            subprocess.run(['afplay', '/System/Library/Sounds/Sosumi.aiff'], 
-                         capture_output=True, check=False)
+            play_alert_sound()
             sys.exit(2)
         
         if tool_name == 'Bash' and is_env_file_access("", command):
-            print(f"🔒 SECURITY: Command accessing .env file blocked", file=sys.stderr)
-            print(f"Command: {command}", file=sys.stderr)
+            print(f"🔒 SECURITY: Command accessing sensitive file blocked", file=sys.stderr)
+            print(f"", file=sys.stderr)
+            print(f"Blocked command: {command}", file=sys.stderr)
+            print(f"", file=sys.stderr)
+            print(f"⚠️  USER ACTION REQUIRED:", file=sys.stderr)
+            print(f"This command tries to access sensitive environment files.", file=sys.stderr)
+            print(f"If you need to run this command:", file=sys.stderr)
+            print(f"1. Review it carefully for security implications", file=sys.stderr)
+            print(f"2. Run it manually in your terminal", file=sys.stderr)
+            print(f"3. Let me know when complete", file=sys.stderr)
+            print(f"", file=sys.stderr)
+            print(f"I will wait for your confirmation before proceeding.", file=sys.stderr)
             
-            subprocess.run(['afplay', '/System/Library/Sounds/Sosumi.aiff'], 
-                         capture_output=True, check=False)
+            play_alert_sound()
             sys.exit(2)
         
     except Exception:
