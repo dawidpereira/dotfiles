@@ -1,0 +1,122 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash",
+      "Edit",
+      "Glob",
+      "Grep",
+      "LS",
+      "MultiEdit",
+      "NotebookEdit",
+      "NotebookRead",
+      "Read",
+      "Task",
+      "TodoWrite",
+      "WebFetch",
+      "WebSearch",
+      "Write"
+    ],
+    "deny": [
+      "Bash(rm -rf*)",
+      "Bash(sudo rm*)",
+      "Bash(chmod 777*)",
+      "Bash(git push --force*)",
+      "Bash(git push -f*)",
+      "Bash(git reset --hard HEAD~*)",
+      "Bash(docker run --privileged*)",
+      "Bash(curl*|*sh*)",
+      "Bash(wget*|*sh*)",
+      "Read(**/.env*)",
+      "Read(**/secrets.*)",
+      "Read(**/*secret*)",
+      "Read(**/*key*)",
+      "Read(**/.*credentials*)",
+      "Read(**/*.pem)",
+      "Read(**/*.p12)",
+      "Read(**/*.pfx)",
+      "Edit(**/.env*)",
+      "Edit(**/secrets.*)",
+      "Edit(**/*secret*)",
+      "Edit(**/*key*)",
+      "Edit(**/.*credentials*)",
+      "Write(**/.env*)",
+      "Write(**/secrets.*)",
+      "Write(**/*secret*)",
+      "Write(**/*key*)",
+      "Write(**/.*credentials*)"
+    ],
+    "additionalDirectories": [
+      "~/.cargo",
+      "~/.dotnet",
+      "~/.nuget"
+    ],
+    "defaultMode": "acceptEdits"
+  },
+  "env": {
+    "RUST_BACKTRACE": "1",
+    "CARGO_TERM_COLOR": "always",
+    "DOTNET_CLI_TELEMETRY_OPTOUT": "1",
+    "DOTNET_SKIP_FIRST_TIME_EXPERIENCE": "1"
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Read|Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/dawidpereira/dotfiles/claude/hooks/protect-sensitive-files.sh",
+            "background": false
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/dawidpereira/dotfiles/claude/hooks/validate-bash-command.sh",
+            "background": false
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|MultiEdit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/dawidpereira/dotfiles/claude/hooks/post-edit-checks.sh",
+            "background": true
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/dawidpereira/dotfiles/claude/hooks/completion-notification.sh",
+            "background": true
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/Users/dawidpereira/dotfiles/claude/hooks/notification-alert.sh",
+            "background": true
+          }
+        ]
+      }
+    ]
+  },
+  "model": "opus"
+}
