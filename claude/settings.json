@@ -66,7 +66,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/dotfiles/claude/hooks/pre_tool_use.py",
+            "command": "~/.claude/hooks/pre_tool_use.py",
             "background": false
           }
         ]
@@ -78,7 +78,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/dotfiles/claude/hooks/user_prompt_submit.py",
+            "command": "~/.claude/hooks/user_prompt_submit.py",
             "background": true
           }
         ]
@@ -90,7 +90,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/dotfiles/claude/hooks/notification.py",
+            "command": "~/.claude/hooks/notification.py",
             "background": true
           }
         ]
@@ -102,7 +102,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/dotfiles/claude/hooks/notification.py",
+            "command": "~/.claude/hooks/notification.py",
             "background": true
           }
         ]

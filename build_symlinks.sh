@@ -18,7 +18,7 @@ stow .
 SOURCE_CLAUDE="$(pwd)/claude"
 if [ -d "$SOURCE_CLAUDE/hooks" ]; then
   echo "Setting executable permissions on hook scripts..."
-  chmod +x "$SOURCE_CLAUDE/hooks"/*.sh
+  chmod +x "$SOURCE_CLAUDE/hooks"/*.py
   echo "✅ Hook scripts are now executable"
 else
   echo "⚠️  Warning: hooks directory not found at $SOURCE_CLAUDE/hooks"
@@ -96,20 +96,19 @@ elif [ -L "$TARGET_CLAUDE/commands" ]; then
 fi
 ln -s "$SOURCE_CLAUDE/commands" "$TARGET_CLAUDE/commands"
 
-# Create symlink for dotfiles directory to fix hook paths
-CLAUDE_DOTFILES_DIR="$TARGET_CLAUDE/dotfiles"
-if [ -d "$CLAUDE_DOTFILES_DIR" ] && [ ! -L "$CLAUDE_DOTFILES_DIR" ]; then
-  echo "Backing up existing dotfiles directory to dotfiles.backup"
-  mv "$CLAUDE_DOTFILES_DIR" "$CLAUDE_DOTFILES_DIR.backup"
-elif [ -L "$CLAUDE_DOTFILES_DIR" ]; then
-  echo "Removing existing dotfiles symlink"
-  rm "$CLAUDE_DOTFILES_DIR"
+# Create symlink for hooks directory
+if [ -d "$TARGET_CLAUDE/hooks" ] && [ ! -L "$TARGET_CLAUDE/hooks" ]; then
+  echo "Backing up existing hooks directory to hooks.backup"
+  mv "$TARGET_CLAUDE/hooks" "$TARGET_CLAUDE/hooks.backup"
+elif [ -L "$TARGET_CLAUDE/hooks" ]; then
+  echo "Removing existing hooks symlink"
+  rm "$TARGET_CLAUDE/hooks"
 fi
-ln -s "$HOME/dotfiles" "$CLAUDE_DOTFILES_DIR"
+ln -s "$SOURCE_CLAUDE/hooks" "$TARGET_CLAUDE/hooks"
 
 echo "Claude Code configuration symlinks created:"
 echo "  $TARGET_CLAUDE/settings.json -> $SOURCE_CLAUDE/settings.json"
 echo "  $TARGET_CLAUDE/CLAUDE.md -> $SOURCE_CLAUDE/.claude/CLAUDE.md"
 echo "  $TARGET_CLAUDE/commands -> $SOURCE_CLAUDE/commands"
-echo "  $TARGET_CLAUDE/dotfiles -> $HOME/dotfiles"
+echo "  $TARGET_CLAUDE/hooks -> $SOURCE_CLAUDE/hooks"
 echo "  $HOME/.claude.json -> $SOURCE_CLAUDE/claude.json"
