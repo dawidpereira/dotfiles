@@ -38,6 +38,43 @@ def is_env_file_access(file_path, command=""):
     
     return False
 
+def is_dangerous_git_command(command):
+    if not command or 'git' not in command:
+        return False
+    
+    dangerous_git_patterns = [
+        # ALL push commands - only user should push
+        r'\bgit\s+push\b',
+        # Hard reset commands that lose history
+        r'\bgit\s+reset\s+--hard\s+HEAD~',
+        r'\bgit\s+reset\s+--hard\s+[a-f0-9]{6,}',  # reset to specific commit
+        r'\bgit\s+reset\s+--hard\s+origin/',
+        # Clean commands that delete untracked files
+        r'\bgit\s+clean\s+-[dfx]*f',  # force clean
+        # Rebase with force
+        r'\bgit\s+rebase\s+.*--force',
+        # Filter-branch (rewrites history)
+        r'\bgit\s+filter-branch',
+        # Remove files from all history
+        r'\bgit\s+rm\s+.*--cached',
+        # Checkout that might lose changes
+        r'\bgit\s+checkout\s+--\s+\.',  # discard all changes
+        r'\bgit\s+checkout\s+-f',  # force checkout
+        # Stash drop/clear
+        r'\bgit\s+stash\s+(drop|clear)',
+        # Remote operations that could be destructive
+        r'\bgit\s+remote\s+rm',
+        r'\bgit\s+remote\s+remove',
+        # Reflog deletion
+        r'\bgit\s+reflog\s+delete',
+        r'\bgit\s+reflog\s+expire\s+.*--expire=now',
+    ]
+    
+    for pattern in dangerous_git_patterns:
+        if re.search(pattern, command, re.IGNORECASE):
+            return True
+    return False
+
 def play_alert_sound():
     """Play an alert sound if on macOS, otherwise do nothing."""
     if platform.system() == 'Darwin':
@@ -102,6 +139,39 @@ def main():
                 print(f"1. Review the command carefully", file=sys.stderr)
                 print(f"2. Run it manually in your terminal if appropriate", file=sys.stderr)
                 print(f"3. Let me know when complete so I can continue", file=sys.stderr)
+                print(f"", file=sys.stderr)
+                print(f"I will wait for your confirmation before proceeding.", file=sys.stderr)
+                
+                play_alert_sound()
+                sys.exit(2)
+            
+            # Check for dangerous git commands
+            if is_dangerous_git_command(command):
+                if 'git push' in command:
+                    print(f"🚫 GIT PUSH BLOCKED: Only users should push to remote repositories", file=sys.stderr)
+                    print(f"", file=sys.stderr)
+                    print(f"Blocked command: {command}", file=sys.stderr)
+                    print(f"", file=sys.stderr)
+                    print(f"For safety reasons, I cannot push code to remote repositories.", file=sys.stderr)
+                    print(f"This prevents accidental or unwanted changes to your codebase.", file=sys.stderr)
+                else:
+                    print(f"⚠️  GIT SAFETY: Potentially destructive git command blocked", file=sys.stderr)
+                    print(f"", file=sys.stderr)
+                    print(f"Blocked command: {command}", file=sys.stderr)
+                    print(f"", file=sys.stderr)
+                    print(f"This command could:", file=sys.stderr)
+                    print(f"- Permanently lose commits or changes", file=sys.stderr)
+                    print(f"- Delete branches or tags", file=sys.stderr)
+                    print(f"- Remove files from git history", file=sys.stderr)
+                    print(f"- Discard uncommitted work", file=sys.stderr)
+                
+                print(f"", file=sys.stderr)
+                print(f"⚠️  USER ACTION REQUIRED:", file=sys.stderr)
+                print(f"Please review and run this command manually if appropriate:", file=sys.stderr)
+                print(f"1. Open your terminal", file=sys.stderr)
+                print(f"2. Navigate to the repository", file=sys.stderr)
+                print(f"3. Run: {command}", file=sys.stderr)
+                print(f"4. Let me know when complete", file=sys.stderr)
                 print(f"", file=sys.stderr)
                 print(f"I will wait for your confirmation before proceeding.", file=sys.stderr)
                 
