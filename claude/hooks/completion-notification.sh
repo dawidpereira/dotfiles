@@ -22,26 +22,30 @@ else
   sound_option="sound name \"Glass\""
 fi
 
-# Send macOS notification
-osascript -e "
-display notification \"Claude Code has finished processing your request.\" \\
-    with title \"🤖 Claude Code Complete\" \\
-    subtitle \"Task finished at $timestamp\" \\
-    $sound_option
-"
+# Send macOS notification using System Events (more reliable)
+osascript -e 'tell application "System Events" to display notification "Claude Code has finished processing your request." with title "🤖 Claude Code Complete" subtitle "Task finished at '"$timestamp"'"'
 
 # Optional: Terminal bell for immediate attention
 echo -e "\a"
 
 # Optional: Add to macOS notification center with longer persistence
 if [[ "$SEND_DUPLICATE_NOTIFICATION" == "true" ]]; then
-  osascript -e "
-  set notificationText to \"Claude Code task completed at $timestamp. Check your terminal for results.\"
-  display notification notificationText \\
-      with title \"Claude Code\" \\
-      subtitle \"Ready for next task\" \\
-      $sound_option
-  "
+  if [[ -z "$sound_option" ]]; then
+    osascript -e "
+    set notificationText to \"Claude Code task completed at $timestamp. Check your terminal for results.\"
+    display notification notificationText \\
+        with title \"Claude Code\" \\
+        subtitle \"Ready for next task\"
+    "
+  else
+    osascript -e "
+    set notificationText to \"Claude Code task completed at $timestamp. Check your terminal for results.\"
+    display notification notificationText \\
+        with title \"Claude Code\" \\
+        subtitle \"Ready for next task\" \\
+        $sound_option
+    "
+  fi
 fi
 
 # Log completion for debugging (optional)
