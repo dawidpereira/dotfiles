@@ -14,6 +14,16 @@ fi
 # First, run stow (which reads your .stowrc and uses --target=~/.config)
 stow .
 
+# Ensure all hook scripts are executable before creating symlinks
+SOURCE_CLAUDE="$(pwd)/claude"
+if [ -d "$SOURCE_CLAUDE/hooks" ]; then
+  echo "Setting executable permissions on hook scripts..."
+  chmod +x "$SOURCE_CLAUDE/hooks"/*.sh
+  echo "✅ Hook scripts are now executable"
+else
+  echo "⚠️  Warning: hooks directory not found at $SOURCE_CLAUDE/hooks"
+fi
+
 # Define paths for nushell
 SOURCE_NUSHELL="$(pwd)/nushell"                            # Path to the "nushell" package in your repo
 TARGET_NUSHELL="$HOME/Library/Application Support/nushell" # Additional target location
@@ -41,7 +51,7 @@ echo "Additional symlink for 'nushell' created:"
 echo "  $TARGET_NUSHELL -> $SOURCE_NUSHELL"
 
 # Define paths for Claude Code configuration
-SOURCE_CLAUDE="$(pwd)/claude" # Path to the "claude" package in your repo
+# SOURCE_CLAUDE already defined above
 TARGET_CLAUDE="$HOME/.claude" # Claude Code config directory
 
 # Create ~/.claude directory if it doesn't exist
@@ -83,12 +93,3 @@ echo "  $TARGET_CLAUDE/commands -> $SOURCE_CLAUDE/commands"
 
 # Note: hooks directory is referenced directly from dotfiles location in settings.json
 echo "Note: Hook scripts are referenced directly from $SOURCE_CLAUDE/hooks in settings.json"
-
-# Ensure all hook scripts are executable
-echo "\nSetting executable permissions on hook scripts..."
-if [ -d "$SOURCE_CLAUDE/hooks" ]; then
-  chmod +x "$SOURCE_CLAUDE/hooks"/*.sh
-  echo "✅ Hook scripts are now executable"
-else
-  echo "⚠️  Warning: hooks directory not found at $SOURCE_CLAUDE/hooks"
-fi
