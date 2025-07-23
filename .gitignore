@@ -4,3 +4,6 @@ vendor
 history.txt
 
 *.DS_Store
+
+# Claude Code - personal configuration (contains private data)
+claude/claude.json

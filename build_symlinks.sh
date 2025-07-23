@@ -74,7 +74,17 @@ done
 
 # Create symlinks for Claude Code configuration files
 ln -s "$SOURCE_CLAUDE/settings.json" "$TARGET_CLAUDE/settings.json"
-ln -s "$SOURCE_CLAUDE/CLAUDE.md" "$TARGET_CLAUDE/CLAUDE.md"
+ln -s "$SOURCE_CLAUDE/.claude/CLAUDE.md" "$TARGET_CLAUDE/CLAUDE.md"
+
+# Create symlink for the main claude.json file
+if [ -f "$HOME/.claude.json" ] && [ ! -L "$HOME/.claude.json" ]; then
+  echo "Backing up existing .claude.json to .claude.json.backup"
+  mv "$HOME/.claude.json" "$HOME/.claude.json.backup"
+elif [ -L "$HOME/.claude.json" ]; then
+  echo "Removing existing .claude.json symlink"
+  rm "$HOME/.claude.json"
+fi
+ln -s "$SOURCE_CLAUDE/claude.json" "$HOME/.claude.json"
 
 # Create symlink for commands directory
 if [ -d "$TARGET_CLAUDE/commands" ] && [ ! -L "$TARGET_CLAUDE/commands" ]; then
@@ -88,8 +98,9 @@ ln -s "$SOURCE_CLAUDE/commands" "$TARGET_CLAUDE/commands"
 
 echo "Claude Code configuration symlinks created:"
 echo "  $TARGET_CLAUDE/settings.json -> $SOURCE_CLAUDE/settings.json"
-echo "  $TARGET_CLAUDE/CLAUDE.md -> $SOURCE_CLAUDE/CLAUDE.md"
+echo "  $TARGET_CLAUDE/CLAUDE.md -> $SOURCE_CLAUDE/.claude/CLAUDE.md"
 echo "  $TARGET_CLAUDE/commands -> $SOURCE_CLAUDE/commands"
+echo "  $HOME/.claude.json -> $SOURCE_CLAUDE/claude.json"
 
 # Note: hooks directory is referenced directly from dotfiles location in settings.json
 echo "Note: Hook scripts are referenced directly from $SOURCE_CLAUDE/hooks in settings.json"

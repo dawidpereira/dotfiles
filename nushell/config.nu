@@ -72,4 +72,4 @@ def tmux_connect_sesh [] {
 
 
 # Quetty Development Setup  
-alias quetty = ^/Users/dawidpereira/repos/quetty/target/release/quetty
+alias quetty = ^~/repos/quetty/target/release/quetty

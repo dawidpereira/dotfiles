@@ -17,15 +17,16 @@
       "Write"
     ],
     "deny": [
-      "Bash(rm -rf*)",
-      "Bash(sudo rm*)",
-      "Bash(chmod 777*)",
-      "Bash(git push --force*)",
-      "Bash(git push -f*)",
-      "Bash(git reset --hard HEAD~*)",
-      "Bash(docker run --privileged*)",
-      "Bash(curl*|*sh*)",
-      "Bash(wget*|*sh*)",
+      "Bash(*rm -rf *)",
+      "Bash(*rm -fr *)",
+      "Bash(*sudo rm*)",
+      "Bash(*chmod 777*)",
+      "Bash(*git push --force*)",
+      "Bash(*git push -f*)",
+      "Bash(*git reset --hard HEAD~*)",
+      "Bash(*docker run --privileged*)",
+      "Bash(*curl*|*sh*)",
+      "Bash(*wget*|*sh*)",
       "Read(**/.env*)",
       "Read(**/secrets.*)",
       "Read(**/*secret*)",
@@ -61,33 +62,23 @@
   "hooks": {
     "PreToolUse": [
       {
-        "matcher": "Read|Edit|Write",
+        "matcher": ".*",
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/dawidpereira/dotfiles/claude/hooks/protect-sensitive-files.sh",
-            "background": false
-          }
-        ]
-      },
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/dawidpereira/dotfiles/claude/hooks/validate-bash-command.sh",
+            "command": "~/.claude/dotfiles/claude/hooks/pre_tool_use.py",
             "background": false
           }
         ]
       }
     ],
-    "PostToolUse": [
+    "UserPromptSubmit": [
       {
-        "matcher": "Edit|MultiEdit|Write",
+        "matcher": ".*",
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/dawidpereira/dotfiles/claude/hooks/post-edit-checks.sh",
+            "command": "~/.claude/dotfiles/claude/hooks/user_prompt_submit.py",
             "background": true
           }
         ]
@@ -99,7 +90,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/dawidpereira/dotfiles/claude/hooks/completion-notification.sh",
+            "command": "~/.claude/dotfiles/claude/hooks/notification.py",
             "background": true
           }
         ]
@@ -111,7 +102,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "/Users/dawidpereira/dotfiles/claude/hooks/notification-alert.sh",
+            "command": "~/.claude/dotfiles/claude/hooks/notification.py",
             "background": true
           }
         ]
