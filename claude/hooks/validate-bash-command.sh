@@ -3,6 +3,12 @@
 # Claude Code Security Hook: Validate Bash Commands
 # This hook prevents dangerous bash commands from being executed
 
+# Check for jq dependency
+if ! command -v jq >/dev/null 2>&1; then
+  echo "Warning: jq not found, skipping bash command validation"
+  exit 0
+fi
+
 # Read the tool execution data from stdin
 tool_data=$(cat)
 

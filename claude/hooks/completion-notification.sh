@@ -3,6 +3,9 @@
 # Claude Code macOS Notification Hook: Task Completion
 # This hook sends native macOS notifications when Claude finishes tasks
 
+# Configuration: Set to "false" to disable duplicate notifications
+SEND_DUPLICATE_NOTIFICATION="${CLAUDE_DUPLICATE_NOTIFICATIONS:-false}"
+
 # Read the tool execution data from stdin (though Stop event may not have much data)
 tool_data=$(cat)
 
@@ -31,13 +34,15 @@ display notification \"Claude Code has finished processing your request.\" \\
 echo -e "\a"
 
 # Optional: Add to macOS notification center with longer persistence
-osascript -e "
-set notificationText to \"Claude Code task completed at $timestamp. Check your terminal for results.\"
-display notification notificationText \\
-    with title \"Claude Code\" \\
-    subtitle \"Ready for next task\" \\
-    $sound_option
-"
+if [[ "$SEND_DUPLICATE_NOTIFICATION" == "true" ]]; then
+  osascript -e "
+  set notificationText to \"Claude Code task completed at $timestamp. Check your terminal for results.\"
+  display notification notificationText \\
+      with title \"Claude Code\" \\
+      subtitle \"Ready for next task\" \\
+      $sound_option
+  "
+fi
 
 # Log completion for debugging (optional)
 echo "[$(date)] Claude Code task completion notification sent" >>"/tmp/claude-notifications.log"

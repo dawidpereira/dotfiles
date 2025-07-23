@@ -3,6 +3,12 @@
 # Claude Code Post-Edit Hook: Automated Quality Checks
 # This hook runs quality checks after file edits
 
+# Check for jq dependency
+if ! command -v jq >/dev/null 2>&1; then
+  echo "Warning: jq not found, skipping post-edit checks"
+  exit 0
+fi
+
 # Read the tool execution data from stdin
 tool_data=$(cat)
 

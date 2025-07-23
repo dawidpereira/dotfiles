@@ -3,6 +3,12 @@
 # Claude Code Security Hook: Protect Sensitive Files
 # This hook prevents access to environment files and other sensitive data
 
+# Check for jq dependency
+if ! command -v jq >/dev/null 2>&1; then
+  echo "Warning: jq not found, skipping sensitive file protection"
+  exit 0
+fi
+
 # Read the tool execution data from stdin
 tool_data=$(cat)
 

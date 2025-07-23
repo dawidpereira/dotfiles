@@ -2,6 +2,15 @@
 # Script to build symlinks using GNU Stow
 # and to create additional symlinks for special packages
 
+# Ensure we're running from the dotfiles directory
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [[ "$(pwd)" != "$SCRIPT_DIR" ]]; then
+  echo "Error: This script must be run from the dotfiles directory"
+  echo "Current directory: $(pwd)"
+  echo "Expected directory: $SCRIPT_DIR"
+  exit 1
+fi
+
 # First, run stow (which reads your .stowrc and uses --target=~/.config)
 stow .
 
@@ -10,9 +19,19 @@ SOURCE_NUSHELL="$(pwd)/nushell"                            # Path to the "nushel
 TARGET_NUSHELL="$HOME/Library/Application Support/nushell" # Additional target location
 
 # Remove existing nushell target if present
-if [ -e "$TARGET_NUSHELL" ]; then
-  echo "Target '$TARGET_NUSHELL' already exists – removing..."
-  rm -rf "$TARGET_NUSHELL"
+if [ -L "$TARGET_NUSHELL" ]; then
+  echo "Target '$TARGET_NUSHELL' is a symlink – removing..."
+  rm "$TARGET_NUSHELL"
+elif [ -d "$TARGET_NUSHELL" ]; then
+  echo "Target '$TARGET_NUSHELL' is a directory – backing up..."
+  backup_name="${TARGET_NUSHELL}.backup.$(date +%s)"
+  mv "$TARGET_NUSHELL" "$backup_name"
+  echo "Backed up to: $backup_name"
+elif [ -e "$TARGET_NUSHELL" ]; then
+  echo "Target '$TARGET_NUSHELL' exists but is not a directory or symlink – backing up..."
+  backup_name="${TARGET_NUSHELL}.backup.$(date +%s)"
+  mv "$TARGET_NUSHELL" "$backup_name"
+  echo "Backed up to: $backup_name"
 fi
 
 # Create the additional nushell symlink
@@ -64,3 +83,12 @@ echo "  $TARGET_CLAUDE/commands -> $SOURCE_CLAUDE/commands"
 
 # Note: hooks directory is referenced directly from dotfiles location in settings.json
 echo "Note: Hook scripts are referenced directly from $SOURCE_CLAUDE/hooks in settings.json"
+
+# Ensure all hook scripts are executable
+echo "\nSetting executable permissions on hook scripts..."
+if [ -d "$SOURCE_CLAUDE/hooks" ]; then
+  chmod +x "$SOURCE_CLAUDE/hooks"/*.sh
+  echo "✅ Hook scripts are now executable"
+else
+  echo "⚠️  Warning: hooks directory not found at $SOURCE_CLAUDE/hooks"
+fi
