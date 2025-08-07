@@ -12,7 +12,11 @@ $env.PATH = ($env.PATH | append "~/.nix-profile/bin")
 $env.PATH = ($env.PATH | append "/run/current-system/sw/bin")
 $env.PATH = ($env.PATH | append "/nix/var/nix/profiles/default/bin")
 $env.PATH = ($env.PATH | append "/usr/local/share/dotnet")
+$env.PATH = ($env.PATH | append "~/.dotnet/tools")
 $env.PATH = ($env.PATH | append "~/.cargo/bin")
+
+# Set DOTNET_ROOT for Roslyn LSP
+$env.DOTNET_ROOT = "/usr/local/share/dotnet"
 
 $env.config.buffer_editor = "nvim"
 
