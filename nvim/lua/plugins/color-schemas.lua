@@ -19,8 +19,8 @@ return {
 					transparent = true,
 					styles = {
 						comments = "italic",
-						keywords = "bold",
-						types = "italic,bold",
+						keywords = "italic",
+						types = "bold",
 					},
 				},
 				groups = {
