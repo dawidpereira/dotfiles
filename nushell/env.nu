@@ -30,5 +30,8 @@ $env.HISTORY_FILE = "~/.config/nushell/history.txt"
 $env.LANG = "en_US.UTF-8"
 $env.LC_ALL = "en_US.UTF-8"
 
-zoxide init nushell | save -f ~/.config/nushell/zoxide.nu
+$env.CARAPACE_BRIDGES = 'zsh,fish,bash,inshellisense' # optional
+mkdir ~/.cache/carapace
+carapace _carapace nushell | save --force ~/.cache/carapace/init.nu
 
+zoxide init nushell | save -f ~/.config/nushell/zoxide.nu

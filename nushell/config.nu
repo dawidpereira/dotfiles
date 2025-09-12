@@ -70,6 +70,7 @@ def tmux_connect_sesh [] {
     }
 }
 
+source ~/.cache/carapace/init.nu
 
 # Quetty Development Setup  
 alias quetty = ^~/repos/quetty/target/release/quetty
