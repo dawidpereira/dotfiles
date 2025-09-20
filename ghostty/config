@@ -1,8 +1,29 @@
-theme = catppuccin-mocha
-font-size = 19
-mouse-hide-while-typing = true
-window-decoration = false
-keybind = global:cmd+/=toggle_quick_terminal
-macos-option-as-alt = true
+# Dynamic theme colors - Omarchy integration
+config-file = ?"~/.config/omarchy/current/theme/ghostty.conf"
+
+# Font
+font-family = "Adwaita Mono"
+font-style = Regular
+font-size = 13
+
+# Window
+window-padding-x = 14
+window-padding-y = 14
+confirm-close-surface = false
+resize-overlay = never
+
+# Cursor styling
+cursor-style = "block"
+cursor-style-blink = false
+shell-integration-features = no-cursor
+
+# Keyboard bindings
+keybind = f11=toggle_fullscreen
+keybind = shift+enter=text:\x1b\r
+
+# Transparency and blur
 background-opacity = 0.97
 background-blur-radius = 50
+
+# Mouse behavior
+mouse-hide-while-typing = true

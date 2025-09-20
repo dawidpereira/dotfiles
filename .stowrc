@@ -1,5 +1,6 @@
 --target=~/.config
 --ignore=.stowrc
 --ignore=DS_Store
---ignore=atuin/*
---ignore=nix/*
+--ignore=.git
+--ignore=README.md
+--ignore=install-omarchy.sh
