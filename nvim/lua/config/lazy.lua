@@ -51,4 +51,3 @@ require("lazy").setup({
 		},
 	},
 })
-vim.cmd.colorscheme("duskfox")
