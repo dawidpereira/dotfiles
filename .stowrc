@@ -4,3 +4,6 @@
 --ignore=.git
 --ignore=README.md
 --ignore=install-omarchy.sh
+--ignore=setup-omarchy-deps.sh
+--ignore=setup-starship.sh
+--ignore=starship.toml

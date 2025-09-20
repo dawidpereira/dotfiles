@@ -37,6 +37,28 @@ mkdir -p ~/.config
 echo -e "${YELLOW}Creating symlinks with stow...${NC}"
 stow -v .
 
+# Special handling for starship.toml (Omarchy creates it by default)
+echo -e "${YELLOW}Setting up starship configuration...${NC}"
+
+# Always backup the existing starship.toml (whether it's Omarchy's default or custom)
+if [ -f ~/.config/starship.toml ]; then
+  # Only backup if it's not already our symlink
+  if [ ! -L ~/.config/starship.toml ] || [ "$(readlink ~/.config/starship.toml)" != "$SCRIPT_DIR/starship.toml" ]; then
+    echo -e "${YELLOW}Backing up existing starship.toml...${NC}"
+    mv ~/.config/starship.toml ~/.config/starship.toml.omarchy-backup
+  fi
+fi
+
+# Remove the symlink to the folder if it exists (from stow)
+if [ -L ~/.config/starship ]; then
+  rm ~/.config/starship
+fi
+
+# Create direct symlink to our custom starship.toml
+ln -sf "$SCRIPT_DIR/starship.toml" ~/.config/starship.toml
+echo -e "${GREEN}✓ Starship configuration linked${NC}"
+echo -e "${YELLOW}  Original Omarchy config backed up to ~/.config/starship.toml.omarchy-backup${NC}"
+
 echo -e "${GREEN}✓ Configuration files linked successfully${NC}"
 
 # Check if Omarchy theme directory exists
