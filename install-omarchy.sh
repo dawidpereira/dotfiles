@@ -59,6 +59,14 @@ ln -sf "$SCRIPT_DIR/starship.toml" ~/.config/starship.toml
 echo -e "${GREEN}✓ Starship configuration linked${NC}"
 echo -e "${YELLOW}  Original Omarchy config backed up to ~/.config/starship.toml.omarchy-backup${NC}"
 
+# Set up Claude Code configuration
+echo -e "${YELLOW}Setting up Claude Code configuration...${NC}"
+if [ ! -d ~/.config/claude-code ]; then
+  mkdir -p ~/.config/claude-code
+fi
+ln -sf "$SCRIPT_DIR/claude-code/settings.json" ~/.config/claude-code/settings.json
+echo -e "${GREEN}✓ Claude Code configuration linked${NC}"
+
 echo -e "${GREEN}✓ Configuration files linked successfully${NC}"
 
 # Set up bash configuration
