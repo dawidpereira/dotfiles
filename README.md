@@ -29,6 +29,9 @@ $ bash build_symlinks.sh
 > The initial setup was based on Nix and Darwin. However, due to frequent compatibility issues—primarily from differing installation paths and interdependent plugins requiring manual path configuration this repository now favors a more conventional approach.
 
 ### Apliations
+- **1Password** - Password manager and secure vault for storing credentials and sensitive data.
+  - **Required packages**: `gnome-keyring`, `libsecret`, `seahorse` (for keyring GUI management)
+  - **Note**: If 1Password fails to store access tokens, ensure the keyring service is running and unlocked
 - **Arc** **Browser** - Next-generation web browser designed for speed, privacy, and user experience.
 - **Bazecor** - Customizable RGB lighting and peripheral management application.
 - **Docker** - Platform for building, running, and managing containerized applications.

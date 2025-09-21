@@ -35,7 +35,33 @@ mkdir -p ~/.config
 
 # Run stow to create symlinks
 echo -e "${YELLOW}Creating symlinks with stow...${NC}"
-stow -v .
+
+# Check for existing claude-code configuration
+if [ -L ~/.config/claude-code ] || [ -d ~/.config/claude-code ]; then
+  echo -e "${YELLOW}Existing claude-code configuration detected, checking if it's managed by stow...${NC}"
+
+  # Check if the symlinks point to our dotfiles
+  if [ -L ~/.config/claude-code/settings.json ] && [ "$(readlink ~/.config/claude-code/settings.json)" = "$SCRIPT_DIR/claude-code/settings.json" ]; then
+    echo -e "${GREEN}✓ claude-code already properly configured${NC}"
+  else
+    echo -e "${YELLOW}Warning: claude-code configuration exists but not managed by this dotfiles setup${NC}"
+    echo -e "${YELLOW}Skipping claude-code in stow to avoid conflicts${NC}"
+    # Run stow with ignore for claude-code
+    stow -v --ignore='claude-code' .
+  fi
+else
+  # No existing configuration, safe to stow everything
+  stow -v .
+fi
+
+# Ensure claude-code is properly linked even if stow skipped it
+if [ ! -L ~/.config/claude-code/settings.json ] || [ "$(readlink ~/.config/claude-code/settings.json)" != "$SCRIPT_DIR/claude-code/settings.json" ]; then
+  echo -e "${YELLOW}Setting up Claude Code configuration manually...${NC}"
+  mkdir -p ~/.config/claude-code
+  ln -sf "$SCRIPT_DIR/claude-code/settings.json" ~/.config/claude-code/settings.json
+  ln -sf "$SCRIPT_DIR/claude-code/hooks" ~/.config/claude-code/hooks
+  echo -e "${GREEN}✓ Claude Code configuration linked${NC}"
+fi
 
 # Special handling for starship.toml (Omarchy creates it by default)
 echo -e "${YELLOW}Setting up starship configuration...${NC}"
@@ -59,13 +85,6 @@ ln -sf "$SCRIPT_DIR/starship.toml" ~/.config/starship.toml
 echo -e "${GREEN}✓ Starship configuration linked${NC}"
 echo -e "${YELLOW}  Original Omarchy config backed up to ~/.config/starship.toml.omarchy-backup${NC}"
 
-# Set up Claude Code configuration
-echo -e "${YELLOW}Setting up Claude Code configuration...${NC}"
-if [ ! -d ~/.config/claude-code ]; then
-  mkdir -p ~/.config/claude-code
-fi
-ln -sf "$SCRIPT_DIR/claude-code/settings.json" ~/.config/claude-code/settings.json
-echo -e "${GREEN}✓ Claude Code configuration linked${NC}"
 
 echo -e "${GREEN}✓ Configuration files linked successfully${NC}"
 
@@ -78,6 +97,35 @@ if ! grep -q "source ~/.config/bash/bashrc" ~/.bashrc 2>/dev/null; then
   echo -e "${GREEN}✓ Bash configuration added to ~/.bashrc${NC}"
 else
   echo -e "${GREEN}✓ Bash configuration already sourced in ~/.bashrc${NC}"
+fi
+
+# Set up 1Password Zen browser integration
+echo -e "${YELLOW}Setting up 1Password Zen browser integration...${NC}"
+if [ -f "$SCRIPT_DIR/1password/custom_allowed_browsers" ]; then
+  # Check if we need sudo permissions
+  if [ ! -d /etc/1password ] || [ ! -w /etc/1password ]; then
+    echo -e "${YELLOW}Need sudo permissions to configure 1Password...${NC}"
+    sudo mkdir -p /etc/1password
+    sudo cp "$SCRIPT_DIR/1password/custom_allowed_browsers" /etc/1password/
+  else
+    cp "$SCRIPT_DIR/1password/custom_allowed_browsers" /etc/1password/
+  fi
+
+  # Verify the configuration
+  if [ -f "/etc/1password/custom_allowed_browsers" ]; then
+    echo -e "${GREEN}✓ 1Password Zen browser integration configured${NC}"
+
+    # Restart 1Password if it's running
+    if pgrep -f "1password" > /dev/null; then
+      echo -e "${YELLOW}Restarting 1Password to apply changes...${NC}"
+      pkill -f "1password" || true
+      echo -e "${GREEN}✓ 1Password will restart with new configuration${NC}"
+    fi
+  else
+    echo -e "${YELLOW}Warning: Could not verify 1Password configuration${NC}"
+  fi
+else
+  echo -e "${YELLOW}Note: 1Password configuration file not found${NC}"
 fi
 
 # Check if Omarchy theme directory exists
