@@ -108,6 +108,16 @@ else
   echo -e "${YELLOW}1Password setup script not found${NC}"
 fi
 
+# Set up Hypr bindings
+echo -e "${YELLOW}Setting up Hypr bindings...${NC}"
+if [ -f "$SCRIPT_DIR/hypr/bindings.conf" ]; then
+  mkdir -p ~/.config/hypr
+  ln -sf "$SCRIPT_DIR/hypr/bindings.conf" ~/.config/hypr/bindings.conf
+  echo -e "${GREEN}✓ Hypr bindings configured${NC}"
+else
+  echo -e "${YELLOW}Hypr bindings file not found${NC}"
+fi
+
 # Check if Omarchy theme directory exists
 if [ -d ~/.config/omarchy/current/theme ]; then
   echo -e "${GREEN}✓ Omarchy theme directory detected${NC}"
