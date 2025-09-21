@@ -44,16 +44,31 @@ $selected_text"
 $selected_text"
   fi
 
-  printf "%s" "$output" | pbcopy
+  # Use wl-copy for Wayland or xclip for X11
+  if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+    printf "%s" "$output" | wl-copy
+  else
+    printf "%s" "$output" | xclip -selection clipboard
+  fi
   echo "Copied selected text with filename '$relative_path:$start_line-$end_line' to clipboard!"
 else
   # Normal mode - copy filepath with current line number
   if [ -n "$start_line" ]; then
     output="$relative_path:$start_line"
-    printf "%s" "$output" | pbcopy
+    # Use wl-copy for Wayland or xclip for X11
+  if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+    printf "%s" "$output" | wl-copy
+  else
+    printf "%s" "$output" | xclip -selection clipboard
+  fi
     echo "Copied filepath '$relative_path:$start_line' to clipboard!"
   else
-    printf "%s" "$relative_path" | pbcopy
+    # Use wl-copy for Wayland or xclip for X11
+    if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+      printf "%s" "$relative_path" | wl-copy
+    else
+      printf "%s" "$relative_path" | xclip -selection clipboard
+    fi
     echo "Copied filepath '$relative_path' to clipboard!"
   fi
 fi

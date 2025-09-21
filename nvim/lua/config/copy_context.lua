@@ -2,7 +2,7 @@ local M = {}
 
 function M.copy_context()
 	local filepath = vim.fn.expand("%:p")
-	local script_path = vim.fn.expand("~/dotfiles/scripts/nvim_copy_context.sh")
+	local script_path = vim.fn.expand("~/Repositories/dotfiles/scripts/nvim_copy_context.sh")
 
 	-- Check current mode to determine if we're in visual mode
 	local mode = vim.fn.mode()
