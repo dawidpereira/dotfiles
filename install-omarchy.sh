@@ -99,33 +99,13 @@ else
   echo -e "${GREEN}✓ Bash configuration already sourced in ~/.bashrc${NC}"
 fi
 
-# Set up 1Password Zen browser integration
-echo -e "${YELLOW}Setting up 1Password Zen browser integration...${NC}"
-if [ -f "$SCRIPT_DIR/1password/custom_allowed_browsers" ]; then
-  # Check if we need sudo permissions
-  if [ ! -d /etc/1password ] || [ ! -w /etc/1password ]; then
-    echo -e "${YELLOW}Need sudo permissions to configure 1Password...${NC}"
-    sudo mkdir -p /etc/1password
-    sudo cp "$SCRIPT_DIR/1password/custom_allowed_browsers" /etc/1password/
-  else
-    cp "$SCRIPT_DIR/1password/custom_allowed_browsers" /etc/1password/
-  fi
 
-  # Verify the configuration
-  if [ -f "/etc/1password/custom_allowed_browsers" ]; then
-    echo -e "${GREEN}✓ 1Password Zen browser integration configured${NC}"
-
-    # Restart 1Password if it's running
-    if pgrep -f "1password" > /dev/null; then
-      echo -e "${YELLOW}Restarting 1Password to apply changes...${NC}"
-      pkill -f "1password" || true
-      echo -e "${GREEN}✓ 1Password will restart with new configuration${NC}"
-    fi
-  else
-    echo -e "${YELLOW}Warning: Could not verify 1Password configuration${NC}"
-  fi
+# Set up 1Password XWayland fix
+echo -e "${YELLOW}Setting up 1Password XWayland fix...${NC}"
+if [ -f "$SCRIPT_DIR/1password/setup.sh" ]; then
+  "$SCRIPT_DIR/1password/setup.sh"
 else
-  echo -e "${YELLOW}Note: 1Password configuration file not found${NC}"
+  echo -e "${YELLOW}1Password setup script not found${NC}"
 fi
 
 # Check if Omarchy theme directory exists
@@ -150,5 +130,15 @@ echo "Next steps:"
 echo "1. Restart your terminal or source your shell configuration"
 echo "2. Configure Hyprland keybindings in ~/.config/hypr/hyprland.conf"
 echo "3. Use Omarchy's menu (Setup > Configs) to edit configurations"
+echo ""
+echo -e "${YELLOW}Optional Configurations:${NC}"
+echo ""
+echo "• 1Password XWayland Fix (for Wayland/Hyprland):"
+echo "  ${GREEN}./1password/setup.sh${NC}"
+echo "  Fixes authentication prompts by forcing X11 mode"
+echo ""
+echo "• Git Commit Signing with 1Password SSH:"
+echo "  ${GREEN}./setup-git-signing.sh${NC}"
+echo "  Configure git to sign commits using 1Password SSH agent"
 echo ""
 echo -e "${GREEN}Enjoy your Omarchy setup!${NC}"
