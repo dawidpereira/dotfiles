@@ -1,0 +1,9 @@
+# Git commit signing with 1Password SSH
+[gpg]
+    format = ssh
+[gpg "ssh"]
+    program = /opt/1Password/op-ssh-sign
+[commit]
+    gpgsign = true
+# Note: The actual signing key will be set by the setup script
+# after retrieving it from 1Password SSH agent

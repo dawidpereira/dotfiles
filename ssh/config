@@ -1,0 +1,10 @@
+Host *
+  IdentityAgent ~/.1password/agent.sock
+
+Host github.com
+  User git
+  IdentityAgent ~/.1password/agent.sock
+
+Host gitlab.com
+  User git
+  IdentityAgent ~/.1password/agent.sock
