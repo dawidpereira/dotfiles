@@ -1,0 +1,80 @@
+#!/bin/bash
+# Custom bashrc for Omarchy - sources after system defaults
+
+# Source custom aliases
+if [ -f ~/.config/bash_aliases ]; then
+    source ~/.config/bash_aliases
+fi
+
+# Custom functions ported from Nushell
+
+# Fuzzy find and edit files
+fe() {
+    local file
+    file=$(fd --type f --hidden --exclude .git | fzf --preview 'bat --style=numbers --color=always {}' --preview-window=right:60%)
+    [ -n "$file" ] && nvim "$file"
+}
+
+# Fuzzy find in specific directory and edit
+fde() {
+    local dir="${1:-.}"
+    local file
+    file=$(fd --type f --hidden --exclude .git . "$dir" | fzf --preview 'bat --style=numbers --color=always {}' --preview-window=right:60%)
+    [ -n "$file" ] && nvim "$file"
+}
+
+# Quick fuzzy find in dotfiles
+fdot() {
+    local file
+    file=$(fd --type f --hidden --exclude .git . ~/Repositories/dotfiles | fzf --preview 'bat --style=numbers --color=always {}' --preview-window=right:60%)
+    [ -n "$file" ] && nvim "$file"
+}
+
+# Fuzzy find from pipe or arguments
+vf() {
+    local input
+    if [ -p /dev/stdin ]; then
+        # If there's piped input, use it
+        input=$(cat)
+    elif [ -n "$1" ]; then
+        # If there's an argument, search for files with that pattern
+        input=$(fd --type f --hidden --exclude .git "$1")
+    else
+        # Otherwise, search all files
+        input=$(fd --type f --hidden --exclude .git)
+    fi
+
+    local file
+    file=$(echo "$input" | fzf --preview 'bat --style=numbers --color=always {}' --preview-window=right:60%)
+    [ -n "$file" ] && nvim "$file"
+}
+
+# Alias for quick fuzzy vim
+alias vv='vf'
+
+# Directory navigation with zoxide
+eval "$(zoxide init bash)"
+
+# Better history settings
+export HISTSIZE=10000
+export HISTFILESIZE=20000
+export HISTCONTROL=ignoreboth:erasedups
+shopt -s histappend
+
+# Colored output
+export CLICOLOR=1
+export LSCOLORS=GxFxCxDxBxegedabagaced
+
+# Default editor
+export EDITOR=nvim
+export VISUAL=nvim
+
+# Path additions (if needed)
+# export PATH="$HOME/.local/bin:$PATH"
+
+# FZF configuration
+export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+
+# Bat (better cat) theme
+export BAT_THEME="TwoDark"

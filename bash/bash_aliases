@@ -1,0 +1,75 @@
+#!/bin/bash
+# Bash aliases ported from Nushell config
+
+# Editor
+alias v='nvim'
+alias vim='nvim'
+
+# Fuzzy find helpers
+alias vfz='fzf --preview "bat --style=numbers --color=always {}" | xargs -r nvim'
+
+# Basic commands
+alias l='ls --all'
+alias ll='ls -l'
+alias c='clear'
+alias cl='clear'
+
+# Eza (better ls)
+alias lt='eza --tree --level=2 --long --icons --git'
+
+# Git aliases
+alias gc='git commit -m'
+alias gca='git commit -a -m'
+alias gp='git push origin HEAD'
+alias gpu='git pull origin'
+alias gst='git status'
+alias glog='git log --graph --topo-order --pretty="%w(100,0,6)%C(yellow)%h%C(bold)%C(black)%d %C(cyan)%ar %C(green)%an%n%C(bold)%C(white)%s %N" --abbrev-commit'
+alias gdiff='git diff'
+alias gco='git checkout'
+alias gb='git branch'
+alias gba='git branch -a'
+alias gadd='git add'
+alias ga='git add -p'
+alias gcoall='git checkout -- .'
+alias gr='git remote'
+alias gre='git reset'
+
+# Kubernetes
+alias k='kubectl'
+alias ka='kubectl apply -f'
+alias kg='kubectl get'
+alias kd='kubectl describe'
+alias kdel='kubectl delete'
+alias kl='kubectl logs -f'
+alias kgpo='kubectl get pod'
+alias kgd='kubectl get deployments'
+alias kc='kubectx'
+alias kns='kubens'
+alias ke='kubectl exec -it'
+
+# Directory navigation with zoxide
+alias ci='z'  # zoxide uses 'z' as the main command
+
+# Development
+alias quetty='~/repos/quetty/target/release/quetty'
+
+# Omarchy specific - removed macOS specific aliases
+# alias as='aerospace'  # Not needed on Omarchy
+# alias nixbuild='darwin-rebuild switch --flake ~/dotfiles/nix#m1'  # macOS specific
+
+# Additional useful aliases for Omarchy/Linux
+alias update='sudo pacman -Syu'
+alias install='sudo pacman -S'
+alias search='pacman -Ss'
+alias remove='sudo pacman -R'
+
+# Systemctl shortcuts
+alias ss='sudo systemctl status'
+alias sr='sudo systemctl restart'
+alias se='sudo systemctl enable'
+alias sd='sudo systemctl disable'
+
+# Directory shortcuts
+alias dotfiles='cd ~/Repositories/dotfiles'
+alias repos='cd ~/Repositories'
+alias conf='cd ~/.config'

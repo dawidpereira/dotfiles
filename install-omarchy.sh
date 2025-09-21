@@ -61,6 +61,17 @@ echo -e "${YELLOW}  Original Omarchy config backed up to ~/.config/starship.toml
 
 echo -e "${GREEN}✓ Configuration files linked successfully${NC}"
 
+# Set up bash configuration
+echo -e "${YELLOW}Setting up bash configuration...${NC}"
+if ! grep -q "source ~/.config/bash/bashrc" ~/.bashrc 2>/dev/null; then
+  echo "" >> ~/.bashrc
+  echo "# Source custom bash configuration" >> ~/.bashrc
+  echo "[ -f ~/.config/bash/bashrc ] && source ~/.config/bash/bashrc" >> ~/.bashrc
+  echo -e "${GREEN}✓ Bash configuration added to ~/.bashrc${NC}"
+else
+  echo -e "${GREEN}✓ Bash configuration already sourced in ~/.bashrc${NC}"
+fi
+
 # Check if Omarchy theme directory exists
 if [ -d ~/.config/omarchy/current/theme ]; then
   echo -e "${GREEN}✓ Omarchy theme directory detected${NC}"
