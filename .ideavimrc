@@ -1,0 +1,335 @@
+" ===================================
+" .ideavimrc - IdeaVim Configuration for Rider
+" Based on LazyVim defaults and custom settings
+" ===================================
+
+" ===================================
+" Basic Settings
+" ===================================
+set clipboard+=unnamed,unnamedplus   " Use system clipboard
+set ignorecase                       " Case insensitive search
+set smartcase                        " Smart case search
+set incsearch                        " Incremental search
+set hlsearch                         " Highlight search results
+set number                           " Show line numbers
+set relativenumber                   " Relative line numbers
+set scrolloff=8                      " Keep 8 lines above/below cursor
+set sidescrolloff=8                  " Keep 8 columns left/right of cursor
+set showmode                         " Show current mode
+set showcmd                          " Show command in status line
+set visualbell                       " Use visual bell instead of beeping
+set noerrorbells                     " Disable error bells
+set ideajoin                         " Use IntelliJ's join implementation
+set ideastatusicon=gray              " Gray status bar icon
+set ideamarks                        " Use IntelliJ's mark system
+set idearefactormode=keep            " Keep mode during refactoring
+
+" ===================================
+" IdeaVim Plugins
+" ===================================
+" Enable essential IdeaVim plugins for vim-like functionality
+set surround                         " vim-surround emulation
+set commentary                       " vim-commentary emulation
+set argtextobj                       " Argument text objects
+set textobj-entire                   " Entire buffer text object
+set ReplaceWithRegister              " Replace text with register
+set exchange                         " Text exchange operator
+set highlightedyank                  " Highlight yanked text
+let g:highlightedyank_highlight_duration = "1000"
+set NERDTree                         " File explorer
+set which-key                        " Show available keybindings
+set notimeout                        " Which-key timeout
+set sneak                            " Sneak motion (s/S)
+
+" EasyMotion for ace-jump like functionality
+set easymotion
+" Map 's' to trigger EasyMotion search
+nmap s <Plug>(easymotion-s2)
+nmap S <Plug>(easymotion-overwin-f2)
+
+" ===================================
+" Leader Key
+" ===================================
+let mapleader = " "
+let maplocalleader = "\\"
+
+" ===================================
+" Basic Keymaps (from your config)
+" ===================================
+" Quick escape with jj and kk
+inoremap jj <Esc>
+inoremap kk <Esc>
+
+" U for redo (matching your config)
+nnoremap U <C-r>
+
+" Center buffer while navigating (optional - uncomment if desired)
+" nnoremap <C-u> <C-u>zz
+" nnoremap <C-d> <C-d>zz
+" nnoremap n nzzzv
+" nnoremap N Nzzzv
+
+" ===================================
+" Window Navigation (tmux-like)
+" ===================================
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+" Window splits
+nnoremap <leader>- :split<CR>
+nnoremap <leader>\| :vsplit<CR>
+nnoremap <leader>wd :action CloseContent<CR>
+nnoremap <leader>wq :action CloseContent<CR>
+
+" ===================================
+" Buffer Management
+" ===================================
+nnoremap <S-h> :action PreviousTab<CR>
+nnoremap <S-l> :action NextTab<CR>
+nnoremap <leader>bd :action CloseContent<CR>
+nnoremap <leader>bD :action CloseAllEditors<CR>
+nnoremap <leader>bo :action CloseAllEditorsButActive<CR>
+
+" ===================================
+" File Navigation (LazyVim style)
+" ===================================
+" Find files (like Telescope/fzf)
+nnoremap <leader>ff :action GotoFile<CR>
+nnoremap <leader>fF :action GotoFile<CR>
+nnoremap <leader>fr :action RecentFiles<CR>
+nnoremap <leader>fR :action RecentLocations<CR>
+nnoremap <leader>fb :action Switcher<CR>
+
+" File explorer (matching your <leader>e mapping)
+nnoremap <leader>e :NERDTreeToggle<CR>
+nnoremap <leader>E :NERDTreeFind<CR>
+
+" ===================================
+" Search & Replace (LazyVim style)
+" ===================================
+nnoremap <leader>/ :action FindInPath<CR>
+nnoremap <leader>sg :action FindInPath<CR>
+nnoremap <leader>sw :action FindWordAtCaret<CR>
+nnoremap <leader>sr :action ReplaceInPath<CR>
+nnoremap <leader>ss :action SearchEverywhere<CR>
+nnoremap <leader>sa :action GotoAction<CR>
+nnoremap <leader>sc :action GotoClass<CR>
+nnoremap <leader>sS :action GotoSymbol<CR>
+nnoremap <leader>sf :action GotoFile<CR>
+
+" Clear search highlighting
+nnoremap <leader>nh :nohlsearch<CR>
+
+" ===================================
+" LSP & Code Actions (LazyVim style)
+" ===================================
+" Go to definition/declaration
+nnoremap gd :action GotoDeclaration<CR>
+nnoremap gD :action GotoTypeDeclaration<CR>
+nnoremap gi :action GotoImplementation<CR>
+nnoremap gr :action ShowUsages<CR>
+nnoremap gR :action FindUsages<CR>
+nnoremap gy :action GotoTypeDeclaration<CR>
+
+" Hover and documentation
+nnoremap K :action QuickJavaDoc<CR>
+nnoremap gK :action QuickImplementations<CR>
+
+" Code actions and refactoring
+nnoremap <leader>ca :action ShowIntentionActions<CR>
+vnoremap <leader>ca :action ShowIntentionActions<CR>
+nnoremap <leader>cf :action ReformatCode<CR>
+vnoremap <leader>cf :action ReformatCode<CR>
+nnoremap <leader>cr :action RenameElement<CR>
+nnoremap <leader>cR :action Refactorings.QuickListPopupAction<CR>
+nnoremap <leader>co :action OptimizeImports<CR>
+nnoremap <leader>cg :action Generate<CR>
+
+" Diagnostics
+nnoremap <leader>cd :action ShowErrorDescription<CR>
+nnoremap <leader>cl :action ActivateProblemsViewToolWindow<CR>
+nnoremap ]d :action GotoNextError<CR>
+nnoremap [d :action GotoPreviousError<CR>
+nnoremap ]e :action GotoNextError<CR>
+nnoremap [e :action GotoPreviousError<CR>
+
+" ===================================
+" Git Integration (LazyVim style)
+" ===================================
+nnoremap <leader>gg :action ActivateVersionControlToolWindow<CR>
+nnoremap <leader>gs :action Vcs.Show.Local.Changes<CR>
+nnoremap <leader>gS :action Vcs.Show.Shelf<CR>
+nnoremap <leader>gb :action Annotate<CR>
+nnoremap <leader>gB :action Git.Branches<CR>
+nnoremap <leader>gc :action CheckinProject<CR>
+nnoremap <leader>gd :action Compare.LastVersion<CR>
+nnoremap <leader>gD :action Vcs.ShowDiffWithLocal<CR>
+nnoremap <leader>gh :action Vcs.ShowTabbedFileHistory<CR>
+nnoremap <leader>gH :action LocalHistory.ShowHistory<CR>
+nnoremap <leader>gl :action Vcs.Show.Log<CR>
+nnoremap <leader>gp :action Vcs.Push<CR>
+nnoremap <leader>gP :action Vcs.Pull<CR>
+nnoremap <leader>gr :action Git.ResolveConflicts<CR>
+nnoremap <leader>gu :action Vcs.RollbackChangedLines<CR>
+
+" Git hunks navigation
+nnoremap ]g :action VcsShowNextChangeMarker<CR>
+nnoremap [g :action VcsShowPrevChangeMarker<CR>
+
+" ===================================
+" Testing (.NET specific)
+" ===================================
+nnoremap <leader>tt :action RunClass<CR>
+nnoremap <leader>tT :action RunAllTests<CR>
+nnoremap <leader>tr :action RunContextConfiguration<CR>
+nnoremap <leader>tl :action Rerun<CR>
+nnoremap <leader>td :action DebugClass<CR>
+nnoremap <leader>tD :action DebugAllTests<CR>
+nnoremap <leader>tc :action Coverage<CR>
+nnoremap <leader>ts :action Stop<CR>
+nnoremap <leader>tS :action ActivateUnitTestsToolWindow<CR>
+
+" ===================================
+" Debugging
+" ===================================
+nnoremap <leader>dc :action Resume<CR>
+nnoremap <leader>db :action ToggleLineBreakpoint<CR>
+nnoremap <leader>dB :action ViewBreakpoints<CR>
+nnoremap <leader>di :action StepInto<CR>
+nnoremap <leader>do :action StepOver<CR>
+nnoremap <leader>dO :action StepOut<CR>
+nnoremap <leader>dr :action RunToCursor<CR>
+nnoremap <leader>de :action EvaluateExpression<CR>
+nnoremap <leader>dw :action Debugger.AddToWatch<CR>
+nnoremap <leader>dD :action ActivateDebugToolWindow<CR>
+
+" ===================================
+" UI Toggles (LazyVim style)
+" ===================================
+nnoremap <leader>uu :action ViewToolButtons<CR>
+nnoremap <leader>ut :action ViewToolBar<CR>
+nnoremap <leader>us :action ViewStatusBar<CR>
+nnoremap <leader>un :action EditorToggleShowLineNumbers<CR>
+nnoremap <leader>uw :action EditorToggleUseSoftWraps<CR>
+nnoremap <leader>uW :action EditorToggleShowWhitespaces<CR>
+nnoremap <leader>uz :action ToggleDistractionFreeMode<CR>
+nnoremap <leader>uZ :action ToggleZenMode<CR>
+nnoremap <leader>uf :action ToggleFullScreen<CR>
+
+" ===================================
+" Project Management
+" ===================================
+nnoremap <leader>pp :action ManageRecentProjects<CR>
+nnoremap <leader>pn :action NewProject<CR>
+nnoremap <leader>po :action OpenFile<CR>
+nnoremap <leader>pc :action CloseProject<CR>
+nnoremap <leader>ps :action SaveAll<CR>
+nnoremap <leader>pS :action ActivateProjectToolWindow<CR>
+nnoremap <leader>pt :action ActivateTODOToolWindow<CR>
+nnoremap <leader>pT :action ActivateTerminalToolWindow<CR>
+
+" ===================================
+" Quit (matching your <C-q> mapping)
+" ===================================
+nnoremap <C-q> :action Exit<CR>
+nnoremap <leader>qq :action Exit<CR>
+nnoremap <leader>qQ :action Exit<CR>
+
+" ===================================
+" Bookmarks
+" ===================================
+nnoremap <leader>mm :action ToggleBookmark<CR>
+nnoremap <leader>mM :action ToggleBookmarkWithMnemonic<CR>
+nnoremap <leader>ml :action ShowBookmarks<CR>
+nnoremap <leader>mn :action GotoNextBookmark<CR>
+nnoremap <leader>mp :action GotoPreviousBookmark<CR>
+
+" ===================================
+" Multiple Cursors
+" ===================================
+map <A-n> <Action>(SelectNextOccurrence)
+map <A-p> <Action>(UnselectPreviousOccurrence)
+map <A-S-n> <Action>(SelectAllOccurrences)
+map <C-A-n> <Action>(EditorCloneCaretBelow)
+map <C-A-p> <Action>(EditorCloneCaretAbove)
+
+" ===================================
+" .NET/C# Specific
+" ===================================
+nnoremap <leader>cn :action ReSharperNavigateTo<CR>
+nnoremap <leader>ci :action ReSharper.ReSharper_GotoImplementation<CR>
+nnoremap <leader>cu :action ReSharper.ReSharper_GotoUsage<CR>
+nnoremap <leader>ct :action ReSharper.ReSharper_GotoType<CR>
+nnoremap <leader>cm :action ReSharper.ReSharper_GotoFileMember<CR>
+nnoremap <leader>cT :action ReSharper.ReSharper_UnitTestRunFromContext<CR>
+nnoremap <leader>cD :action ReSharper.ReSharper_UnitTestDebugContext<CR>
+
+" ===================================
+" Motion Enhancements
+" ===================================
+" Jump to next/previous method
+nnoremap ]m :action MethodDown<CR>
+nnoremap [m :action MethodUp<CR>
+
+" Jump to next/previous class
+nnoremap ]c :action NextOccurence<CR>
+nnoremap [c :action PreviousOccurence<CR>
+
+" Quick documentation and parameter info
+inoremap <C-k> <C-o>:action ParameterInfo<CR>
+inoremap <C-j> <C-o>:action QuickJavaDoc<CR>
+
+" ===================================
+" Misc Useful Actions
+" ===================================
+nnoremap <leader>hr :source ~/.ideavimrc<CR>:echo "Reloaded .ideavimrc"<CR>
+nnoremap <leader>hs :action ShowSettings<CR>
+nnoremap <leader>hk :action ShowKeymap<CR>
+nnoremap <leader>ha :action ShowIntentionActions<CR>
+nnoremap <leader>hn :action ShowNavBar<CR>
+
+" Show file structure (similar to symbols outline)
+nnoremap <leader>o :action FileStructurePopup<CR>
+
+" Quick actions
+nnoremap <leader><leader> :action SearchEverywhere<CR>
+nnoremap <leader>k :action QuickJavaDoc<CR>
+nnoremap <leader>K :action QuickImplementations<CR>
+
+" Better paste in visual mode (don't override register)
+vnoremap p "_dP
+
+" Maintain visual mode after indenting
+vnoremap < <gv
+vnoremap > >gv
+
+" Move lines up/down
+nnoremap <A-j> :action MoveLineDown<CR>
+nnoremap <A-k> :action MoveLineUp<CR>
+vnoremap <A-j> :action MoveLineDown<CR>
+vnoremap <A-k> :action MoveLineUp<CR>
+
+" Quick fix/intention actions (similar to vim.lsp.buf.code_action)
+nnoremap <leader>qf :action ShowIntentionActions<CR>
+vnoremap <leader>qf :action ShowIntentionActions<CR>
+
+" ===================================
+" Notes for Rider Setup
+" ===================================
+" 1. Install IdeaVim plugin in Rider
+" 2. Install AceJump plugin for 's' motion
+" 3. Install Which-Key plugin for keybinding hints
+" 4. Install Key Promoter X to learn shortcuts
+" 5. Consider installing:
+"    - .ideavimrc support plugin
+"    - Relative Line Numbers plugin (if not working)
+"    - IdeaVim-EasyMotion extension
+"    - One Dark theme (or your preferred theme)
+"
+" To reload this config: :source ~/.ideavimrc
+" To edit this config: :e ~/.ideavimrc
+"
+" For more actions, use: :actionlist [pattern]
+" Example: :actionlist git
