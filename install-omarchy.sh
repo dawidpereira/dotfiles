@@ -126,6 +126,14 @@ else
   echo -e "${YELLOW}Hypr monitors setup script not found${NC}"
 fi
 
+# Set up Hypr input (Magic Trackpad and gestures)
+echo -e "${YELLOW}Setting up Hypr input configuration...${NC}"
+if [ -f "$SCRIPT_DIR/hypr/setup-input.sh" ]; then
+  "$SCRIPT_DIR/hypr/setup-input.sh"
+else
+  echo -e "${YELLOW}Hypr input setup script not found${NC}"
+fi
+
 # Check if Omarchy theme directory exists
 if [ -d ~/.config/omarchy/current/theme ]; then
   echo -e "${GREEN}✓ Omarchy theme directory detected${NC}"
