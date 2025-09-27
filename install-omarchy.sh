@@ -118,6 +118,14 @@ else
   echo -e "${YELLOW}Hypr bindings file not found${NC}"
 fi
 
+# Set up Hypr monitors
+echo -e "${YELLOW}Setting up Hypr monitor configuration...${NC}"
+if [ -f "$SCRIPT_DIR/hypr/setup-monitors.sh" ]; then
+  "$SCRIPT_DIR/hypr/setup-monitors.sh"
+else
+  echo -e "${YELLOW}Hypr monitors setup script not found${NC}"
+fi
+
 # Check if Omarchy theme directory exists
 if [ -d ~/.config/omarchy/current/theme ]; then
   echo -e "${GREEN}✓ Omarchy theme directory detected${NC}"
