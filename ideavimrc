@@ -38,7 +38,7 @@ set highlightedyank                  " Highlight yanked text
 let g:highlightedyank_highlight_duration = "1000"
 set NERDTree                         " File explorer
 set which-key                        " Show available keybindings
-set notimeout                        " Which-key timeout
+set timeoutlen=500                   " Time to wait for mapped sequence (ms)
 set sneak                            " Sneak motion (s/S)
 
 " EasyMotion for ace-jump like functionality
@@ -129,7 +129,9 @@ nnoremap <leader>nh :nohlsearch<CR>
 nnoremap gd :action GotoDeclaration<CR>
 nnoremap gD :action GotoTypeDeclaration<CR>
 nnoremap gi :action GotoImplementation<CR>
-nnoremap gr :action ShowUsages<CR>
+" Unmap gr from ReplaceWithRegister plugin first, then map to FindUsages
+unmap gr
+nnoremap gr :action FindUsages<CR>
 nnoremap gR :action FindUsages<CR>
 nnoremap gy :action GotoTypeDeclaration<CR>
 
@@ -294,7 +296,7 @@ nnoremap <leader>hn :action ShowNavBar<CR>
 nnoremap <leader>o :action FileStructurePopup<CR>
 
 " Quick actions
-nnoremap <leader><leader> :action SearchEverywhere<CR>
+nmap <leader><leader> <Plug>(easymotion-s2)
 nnoremap <leader>k :action QuickJavaDoc<CR>
 nnoremap <leader>K :action QuickImplementations<CR>
 

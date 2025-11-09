@@ -112,3 +112,22 @@ echo "  $TARGET_CLAUDE/CLAUDE.md -> $SOURCE_CLAUDE/.claude/CLAUDE.md"
 echo "  $TARGET_CLAUDE/commands -> $SOURCE_CLAUDE/commands"
 echo "  $TARGET_CLAUDE/hooks -> $SOURCE_CLAUDE/hooks"
 echo "  $HOME/.claude.json -> $SOURCE_CLAUDE/claude.json"
+
+# Define paths for IdeaVim
+SOURCE_IDEAVIMRC="$(pwd)/ideavimrc"
+TARGET_IDEAVIMRC="$HOME/.ideavimrc"
+
+# Remove existing .ideavimrc if it's not a symlink
+if [ -f "$TARGET_IDEAVIMRC" ] && [ ! -L "$TARGET_IDEAVIMRC" ]; then
+  echo "Backing up existing .ideavimrc to .ideavimrc.backup"
+  mv "$TARGET_IDEAVIMRC" "${TARGET_IDEAVIMRC}.backup"
+elif [ -L "$TARGET_IDEAVIMRC" ]; then
+  echo "Removing existing .ideavimrc symlink"
+  rm "$TARGET_IDEAVIMRC"
+fi
+
+# Create symlink for IdeaVim configuration
+ln -s "$SOURCE_IDEAVIMRC" "$TARGET_IDEAVIMRC"
+
+echo "IdeaVim configuration symlink created:"
+echo "  $TARGET_IDEAVIMRC -> $SOURCE_IDEAVIMRC"
