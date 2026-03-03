@@ -3,7 +3,6 @@
 -- Add any additional keymaps here
 local keymap = vim.keymap
 local defaultOpts = { noremap = true, silent = true }
-local Util = require("lazyvim.util")
 
 local function map(mode, lhs, rhs, desc, opts)
 	local outer_opts = vim.tbl_extend("force", { noremap = true, silent = true, desc = desc or "" }, opts or {})
@@ -12,20 +11,20 @@ end
 
 -- Center buffer while navigating
 -- Temprorary dissabled
--- map("n", "<C-u>", "<C-u>zz")
--- map("n", "<C-u>", "<C-u>zz")
--- map("n", "<C-d>", "<C-d>zz")
--- map("n", "{", "{zz")
--- map("n", "}", "}zz")
--- map("n", "N", "nzz")
--- map("n", "n", "nzz")
--- map("n", "G", "Gzz")
--- map("n", "gg", "ggzz")
--- map("n", "<C-i>", "<C-i>zz")
--- map("n", "<C-o>", "<C-o>zz")
--- map("n", "%", "%zz")
--- map("n", "*", "*zz")
--- map("n", "#", "#zz")
+map("n", "<C-u>", "<C-u>zz")
+map("n", "<C-u>", "<C-u>zz")
+map("n", "<C-d>", "<C-d>zz")
+map("n", "{", "{zz")
+map("n", "}", "}zz")
+map("n", "N", "nzz")
+map("n", "n", "nzz")
+map("n", "G", "Gzz")
+map("n", "gg", "ggzz")
+map("n", "<C-i>", "<C-i>zz")
+map("n", "<C-o>", "<C-o>zz")
+map("n", "%", "%zz")
+map("n", "*", "*zz")
+map("n", "#", "#zz")
 
 map("i", "jj", "<Esc>")
 map("i", "kk", "<Esc>")
@@ -50,28 +49,6 @@ end, { desc = "Explorer Snacks (root dir)" })
 vim.keymap.set("n", "<leader>E", function()
 	snacks_explorer.open({ root = false })
 end, { desc = "Explorer Snacks (cwd)" })
-
--- Screenshot keybindings
-vim.keymap.set("n", "<leader>oq", function()
-	local cmd = vim.fn.expand("~/dotfiles/scripts/screenshot_area.sh")
-	local output = vim.fn.system(cmd)
-	if output and output ~= "" then
-		print(vim.trim(output))
-	end
-end, { desc = "Take area screenshot and copy path" })
-
-vim.keymap.set("n", "<leader>oQ", function()
-	local cmd = vim.fn.expand("~/dotfiles/scripts/screenshot_full.sh")
-	local output = vim.fn.system(cmd)
-	if output and output ~= "" then
-		print(vim.trim(output))
-	end
-end, { desc = "Take full screenshot and copy path" })
-
--- Copy context keybinding
-vim.keymap.set({ "n", "v" }, "<leader>cy", function()
-	require("config.copy_context").copy_context()
-end, { desc = "Copy context (selected text + filename or just filename)" })
 
 -- Global quit keybinding (close nvim)
 vim.keymap.set("n", "<C-q>", "<cmd>qa<cr>", { desc = "Quit nvim" })
