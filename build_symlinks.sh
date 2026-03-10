@@ -61,7 +61,7 @@ if [ ! -d "$TARGET_CLAUDE" ]; then
 fi
 
 # Remove existing Claude config files if they're regular files (not symlinks)
-for config_file in "settings.json" "CLAUDE.md"; do
+for config_file in "settings.json" "CLAUDE.md" "statusline-command.sh"; do
   target_file="$TARGET_CLAUDE/$config_file"
   if [ -f "$target_file" ] && [ ! -L "$target_file" ]; then
     echo "Backing up existing $config_file to ${config_file}.backup"
@@ -75,6 +75,7 @@ done
 # Create symlinks for Claude Code configuration files
 ln -s "$SOURCE_CLAUDE/settings.json" "$TARGET_CLAUDE/settings.json"
 ln -s "$SOURCE_CLAUDE/.claude/CLAUDE.md" "$TARGET_CLAUDE/CLAUDE.md"
+ln -s "$SOURCE_CLAUDE/statusline-command.sh" "$TARGET_CLAUDE/statusline-command.sh"
 
 # Create symlink for the main claude.json file
 if [ -f "$HOME/.claude.json" ] && [ ! -L "$HOME/.claude.json" ]; then
@@ -111,6 +112,7 @@ echo "  $TARGET_CLAUDE/settings.json -> $SOURCE_CLAUDE/settings.json"
 echo "  $TARGET_CLAUDE/CLAUDE.md -> $SOURCE_CLAUDE/.claude/CLAUDE.md"
 echo "  $TARGET_CLAUDE/commands -> $SOURCE_CLAUDE/commands"
 echo "  $TARGET_CLAUDE/hooks -> $SOURCE_CLAUDE/hooks"
+echo "  $TARGET_CLAUDE/statusline-command.sh -> $SOURCE_CLAUDE/statusline-command.sh"
 echo "  $HOME/.claude.json -> $SOURCE_CLAUDE/claude.json"
 
 # Define paths for IdeaVim

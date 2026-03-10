@@ -1,4 +1,10 @@
 {
+  "env": {
+    "RUST_BACKTRACE": "1",
+    "CARGO_TERM_COLOR": "always",
+    "DOTNET_CLI_TELEMETRY_OPTOUT": "1",
+    "DOTNET_SKIP_FIRST_TIME_EXPERIENCE": "1"
+  },
   "permissions": {
     "allow": [
       "Bash",
@@ -46,19 +52,14 @@
       "Write(**/*key*)",
       "Write(**/.*credentials*)"
     ],
+    "defaultMode": "acceptEdits",
     "additionalDirectories": [
       "~/.cargo",
       "~/.dotnet",
       "~/.nuget"
-    ],
-    "defaultMode": "acceptEdits"
+    ]
   },
-  "env": {
-    "RUST_BACKTRACE": "1",
-    "CARGO_TERM_COLOR": "always",
-    "DOTNET_CLI_TELEMETRY_OPTOUT": "1",
-    "DOTNET_SKIP_FIRST_TIME_EXPERIENCE": "1"
-  },
+  "model": "opus",
   "hooks": {
     "PreToolUse": [
       {
@@ -66,8 +67,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/pre_tool_use.py",
-            "background": false
+            "command": "~/.claude/hooks/pre_tool_use.py"
           }
         ]
       }
@@ -78,8 +78,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/user_prompt_submit.py",
-            "background": true
+            "command": "~/.claude/hooks/user_prompt_submit.py"
           }
         ]
       }
@@ -90,8 +89,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/notification.py",
-            "background": true
+            "command": "~/.claude/hooks/notification.py"
           }
         ]
       }
@@ -102,12 +100,18 @@
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/hooks/notification.py",
-            "background": true
+            "command": "~/.claude/hooks/notification.py"
           }
         ]
       }
     ]
   },
-  "model": "opus"
+  "statusLine": {
+    "type": "command",
+    "command": "bash ~/.claude/statusline-command.sh"
+  },
+  "enabledPlugins": {
+    "context7@claude-plugins-official": true,
+    "skill-creator@claude-plugins-official": true
+  }
 }
