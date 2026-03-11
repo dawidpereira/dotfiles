@@ -107,11 +107,36 @@ elif [ -L "$TARGET_CLAUDE/hooks" ]; then
 fi
 ln -s "$SOURCE_CLAUDE/hooks" "$TARGET_CLAUDE/hooks"
 
+# Create symlink for skills directory
+if [ -d "$TARGET_CLAUDE/skills" ] && [ ! -L "$TARGET_CLAUDE/skills" ]; then
+  echo "Backing up existing skills directory to skills.backup"
+  mv "$TARGET_CLAUDE/skills" "$TARGET_CLAUDE/skills.backup"
+elif [ -L "$TARGET_CLAUDE/skills" ]; then
+  echo "Removing existing skills symlink"
+  rm "$TARGET_CLAUDE/skills"
+fi
+ln -s "$SOURCE_CLAUDE/skills" "$TARGET_CLAUDE/skills"
+
+# Install Python dependencies for skills that need them
+REFERENCES_DIR="$SOURCE_CLAUDE/skills/excalidraw-diagram/references"
+if [ -f "$REFERENCES_DIR/pyproject.toml" ]; then
+  if command -v uv &> /dev/null; then
+    echo "Running uv sync for excalidraw-diagram skill..."
+    (cd "$REFERENCES_DIR" && uv sync)
+    echo "Running playwright install for chromium..."
+    (cd "$REFERENCES_DIR" && uv run playwright install chromium)
+    echo "✅ Excalidraw skill dependencies installed"
+  else
+    echo "⚠️  uv not found — skipping Python dependency install for excalidraw-diagram skill"
+  fi
+fi
+
 echo "Claude Code configuration symlinks created:"
 echo "  $TARGET_CLAUDE/settings.json -> $SOURCE_CLAUDE/settings.json"
 echo "  $TARGET_CLAUDE/CLAUDE.md -> $SOURCE_CLAUDE/.claude/CLAUDE.md"
 echo "  $TARGET_CLAUDE/commands -> $SOURCE_CLAUDE/commands"
 echo "  $TARGET_CLAUDE/hooks -> $SOURCE_CLAUDE/hooks"
+echo "  $TARGET_CLAUDE/skills -> $SOURCE_CLAUDE/skills"
 echo "  $TARGET_CLAUDE/statusline-command.sh -> $SOURCE_CLAUDE/statusline-command.sh"
 echo "  $HOME/.claude.json -> $SOURCE_CLAUDE/claude.json"
 

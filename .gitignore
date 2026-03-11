@@ -7,3 +7,7 @@ history.txt
 
 # Claude Code - personal configuration (contains private data)
 claude/claude.json
+
+# UV / Python virtual environments in skill references
+claude/skills/excalidraw-diagram/references/.venv
+claude/skills/excalidraw-diagram/references/uv.lock
