@@ -11,6 +11,15 @@ if [[ "$(pwd)" != "$SCRIPT_DIR" ]]; then
   exit 1
 fi
 
+# Install dependencies from Brewfile
+if command -v brew &> /dev/null; then
+  echo "Installing dependencies from Brewfile..."
+  brew bundle --file="$SCRIPT_DIR/Brewfile"
+  echo "✅ Brew dependencies installed"
+else
+  echo "⚠️  Homebrew not found — skipping brew bundle"
+fi
+
 # First, run stow (which reads your .stowrc and uses --target=~/.config)
 stow .
 
@@ -24,31 +33,22 @@ else
   echo "⚠️  Warning: hooks directory not found at $SOURCE_CLAUDE/hooks"
 fi
 
-# Define paths for nushell
-SOURCE_NUSHELL="$(pwd)/nushell"                            # Path to the "nushell" package in your repo
-TARGET_NUSHELL="$HOME/Library/Application Support/nushell" # Additional target location
+# Create zsh bootstrap symlink (~/.zshenv -> dotfiles/zsh/zshenv.bootstrap)
+SOURCE_ZSHENV="$(pwd)/zsh/zshenv.bootstrap"
+TARGET_ZSHENV="$HOME/.zshenv"
 
-# Remove existing nushell target if present
-if [ -L "$TARGET_NUSHELL" ]; then
-  echo "Target '$TARGET_NUSHELL' is a symlink – removing..."
-  rm "$TARGET_NUSHELL"
-elif [ -d "$TARGET_NUSHELL" ]; then
-  echo "Target '$TARGET_NUSHELL' is a directory – backing up..."
-  backup_name="${TARGET_NUSHELL}.backup.$(date +%s)"
-  mv "$TARGET_NUSHELL" "$backup_name"
-  echo "Backed up to: $backup_name"
-elif [ -e "$TARGET_NUSHELL" ]; then
-  echo "Target '$TARGET_NUSHELL' exists but is not a directory or symlink – backing up..."
-  backup_name="${TARGET_NUSHELL}.backup.$(date +%s)"
-  mv "$TARGET_NUSHELL" "$backup_name"
-  echo "Backed up to: $backup_name"
+if [ -f "$TARGET_ZSHENV" ] && [ ! -L "$TARGET_ZSHENV" ]; then
+  echo "Backing up existing .zshenv to .zshenv.backup"
+  mv "$TARGET_ZSHENV" "${TARGET_ZSHENV}.backup"
+elif [ -L "$TARGET_ZSHENV" ]; then
+  echo "Removing existing .zshenv symlink"
+  rm "$TARGET_ZSHENV"
 fi
 
-# Create the additional nushell symlink
-ln -s "$SOURCE_NUSHELL" "$TARGET_NUSHELL"
+ln -s "$SOURCE_ZSHENV" "$TARGET_ZSHENV"
 
-echo "Additional symlink for 'nushell' created:"
-echo "  $TARGET_NUSHELL -> $SOURCE_NUSHELL"
+echo "Zsh bootstrap symlink created:"
+echo "  $TARGET_ZSHENV -> $SOURCE_ZSHENV"
 
 # Define paths for Claude Code configuration
 # SOURCE_CLAUDE already defined above
@@ -74,7 +74,7 @@ done
 
 # Create symlinks for Claude Code configuration files
 ln -s "$SOURCE_CLAUDE/settings.json" "$TARGET_CLAUDE/settings.json"
-ln -s "$SOURCE_CLAUDE/.claude/CLAUDE.md" "$TARGET_CLAUDE/CLAUDE.md"
+ln -s "$SOURCE_CLAUDE/CLAUDE.md" "$TARGET_CLAUDE/CLAUDE.md"
 ln -s "$SOURCE_CLAUDE/statusline-command.sh" "$TARGET_CLAUDE/statusline-command.sh"
 
 # Create symlink for the main claude.json file
@@ -133,7 +133,7 @@ fi
 
 echo "Claude Code configuration symlinks created:"
 echo "  $TARGET_CLAUDE/settings.json -> $SOURCE_CLAUDE/settings.json"
-echo "  $TARGET_CLAUDE/CLAUDE.md -> $SOURCE_CLAUDE/.claude/CLAUDE.md"
+echo "  $TARGET_CLAUDE/CLAUDE.md -> $SOURCE_CLAUDE/CLAUDE.md"
 echo "  $TARGET_CLAUDE/commands -> $SOURCE_CLAUDE/commands"
 echo "  $TARGET_CLAUDE/hooks -> $SOURCE_CLAUDE/hooks"
 echo "  $TARGET_CLAUDE/skills -> $SOURCE_CLAUDE/skills"

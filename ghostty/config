@@ -6,3 +6,4 @@ keybind = global:cmd+/=toggle_quick_terminal
 macos-option-as-alt = true
 background-opacity = 0.97
 background-blur-radius = 50
+command = /bin/zsh

@@ -1,5 +1,10 @@
 --target=~/.config
 --ignore=.stowrc
 --ignore=DS_Store
---ignore=atuin/*
 --ignore=nix/*
+--ignore=Brewfile
+--ignore=build_symlinks.sh
+--ignore=README.md
+--ignore=ideavimrc
+--ignore=csharpierrc-example.json
+--ignore=editorconfig-csharp-example

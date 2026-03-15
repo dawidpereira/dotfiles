@@ -59,7 +59,6 @@
       "~/.nuget"
     ]
   },
-  "model": "opus",
   "hooks": {
     "PreToolUse": [
       {

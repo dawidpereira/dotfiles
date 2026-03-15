@@ -2,6 +2,8 @@ flake.lock
 tmux/plugins/
 vendor
 history.txt
+zsh/.zsh_history
+zsh/.zcompdump*
 
 *.DS_Store
 
