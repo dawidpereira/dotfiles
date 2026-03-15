@@ -5,26 +5,9 @@ local keymap = vim.keymap
 local defaultOpts = { noremap = true, silent = true }
 
 local function map(mode, lhs, rhs, desc, opts)
-	local outer_opts = vim.tbl_extend("force", { noremap = true, silent = true, desc = desc or "" }, opts or {})
-	vim.keymap.set(mode, lhs, rhs, outer_opts)
+  local outer_opts = vim.tbl_extend("force", { noremap = true, silent = true, desc = desc or "" }, opts or {})
+  vim.keymap.set(mode, lhs, rhs, outer_opts)
 end
-
--- Center buffer while navigating
--- Temprorary dissabled
-map("n", "<C-u>", "<C-u>zz")
-map("n", "<C-u>", "<C-u>zz")
-map("n", "<C-d>", "<C-d>zz")
-map("n", "{", "{zz")
-map("n", "}", "}zz")
-map("n", "N", "nzz")
-map("n", "n", "nzz")
-map("n", "G", "Gzz")
-map("n", "gg", "ggzz")
-map("n", "<C-i>", "<C-i>zz")
-map("n", "<C-o>", "<C-o>zz")
-map("n", "%", "%zz")
-map("n", "*", "*zz")
-map("n", "#", "#zz")
 
 map("i", "jj", "<Esc>")
 map("i", "kk", "<Esc>")
@@ -43,11 +26,11 @@ keymap.set("n", "U", "<C-r>", defaultOpts)
 local snacks_explorer = require("snacks.explorer")
 
 vim.keymap.set("n", "<leader>e", function()
-	snacks_explorer.open({ root = true })
+  snacks_explorer.open({ root = true })
 end, { desc = "Explorer Snacks (root dir)" })
 
 vim.keymap.set("n", "<leader>E", function()
-	snacks_explorer.open({ root = false })
+  snacks_explorer.open({ root = false })
 end, { desc = "Explorer Snacks (cwd)" })
 
 -- Global quit keybinding (close nvim)
