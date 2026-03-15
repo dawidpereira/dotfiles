@@ -1,6 +1,6 @@
 # Dotfiles
 
-Personal dotfiles managed with [GNU Stow](https://www.gnu.org/software/stow/). Zsh-based setup targeting macOS with Homebrew.
+Personal dotfiles managed with [GNU Stow](https://www.gnu.org/software/stow/) and manual symlinks. Zsh-based setup targeting macOS with Homebrew.
 
 ## Requirements
 
@@ -14,27 +14,21 @@ Personal dotfiles managed with [GNU Stow](https://www.gnu.org/software/stow/). Z
 # 1. Install Homebrew (if not already installed)
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# 2. Clone the repository
+# 2. Clone and install
 git clone https://github.com/dawidpereira/dotfiles.git ~/dotfiles
 cd ~/dotfiles
-
-# 3. Install all dependencies from the Brewfile
-brew bundle --file=Brewfile
-
-# 4. Run the bootstrap script to create symlinks
-bash build_symlinks.sh
+bash install.sh
 ```
 
-> **Note:** Step 3 is also run inside `build_symlinks.sh`, so you can skip it and go straight to step 4. Running it separately first is useful to catch any brew errors before symlinking.
+The install script will:
 
-The bootstrap script will:
-
-1. Install dependencies from the `Brewfile` via `brew bundle` (if not already done)
-2. Run `stow .` to symlink config packages into `~/.config/`
-3. Create the zsh bootstrap symlink (`~/.zshenv` -> `dotfiles/zsh/zshenv.bootstrap`)
-4. Set up Claude Code configuration symlinks
-5. Create the IdeaVim symlink (`~/.ideavimrc`)
-6. Install Python dependencies for Claude Code skills (requires `uv`)
+1. Install dependencies from the `Brewfile` via `brew bundle`
+2. Run `stow .` to symlink config packages into `~/.config/` (aerospace, btop, ghostty, nvim, scripts, starship)
+3. Create zsh symlinks (`~/.config/zsh/.zshrc`, `~/.config/zsh/.zshenv`, `~/.zshenv`)
+4. Create tmux symlinks (`~/.config/tmux/tmux.conf`, `~/.config/tmux/tmux.reset.conf`)
+5. Set up Claude Code configuration symlinks in `~/.claude/`
+6. Create the IdeaVim symlink (`~/.ideavimrc`)
+7. Install Python dependencies for Claude Code skills (requires `uv`)
 
 Open a new terminal and you're done.
 
@@ -43,7 +37,7 @@ Open a new terminal and you're done.
 ```
 dotfiles/
 ├── Brewfile                 # Homebrew dependencies
-├── build_symlinks.sh        # Bootstrap script
+├── install.sh               # Bootstrap script
 ├── .stowrc                  # Stow config (target: ~/.config)
 │
 ├── aerospace/               # Aerospace WM config
@@ -51,15 +45,16 @@ dotfiles/
 ├── claude/                  # Claude Code settings, hooks, skills
 ├── ghostty/                 # Ghostty terminal config
 ├── nvim/                    # Neovim (LazyVim) config
+├── scripts/                 # Custom scripts
 ├── starship/                # Starship prompt config
-├── tmux/                    # tmux config + tpm
-├── zsh/                     # Zsh config (.zshrc, .zshenv, bootstrap)
+├── tmux/                    # tmux config (tmux.conf, tmux.reset.conf)
+├── zsh/                     # Zsh config (zshrc, zshenv, zshenv.bootstrap)
 │
 ├── ideavimrc                # IdeaVim config (symlinked to ~/.ideavimrc)
 └── csharpierrc-example.json # Example config (not deployed)
 ```
 
-Stow deploys each top-level directory as a package into `~/.config/`. Root-level files like `Brewfile` and `build_symlinks.sh` are excluded via `.stowrc`.
+Stow deploys `aerospace`, `btop`, `ghostty`, `nvim`, `scripts`, and `starship` into `~/.config/`. Zsh, tmux, and Claude Code are symlinked manually by `install.sh` to avoid stow's tree-folding behavior.
 
 ## Tools
 
