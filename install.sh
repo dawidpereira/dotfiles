@@ -49,6 +49,7 @@ echo "Setting up tmux..."
 mkdir -p ~/.config/tmux
 link "$DOTFILES/tmux/tmux.conf"       ~/.config/tmux/tmux.conf
 link "$DOTFILES/tmux/tmux.reset.conf" ~/.config/tmux/tmux.reset.conf
+link "$DOTFILES/tmux/themes"          ~/.config/tmux/themes
 echo "Done."
 
 # ── Claude Code ───────────────────────────────────────────────────────
