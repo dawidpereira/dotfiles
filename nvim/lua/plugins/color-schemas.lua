@@ -1,5 +1,23 @@
--- lua/plugins/rose-pine.lua
 return {
+	{ "akinsho/bufferline.nvim", enabled = false },
+	{
+		"catppuccin/nvim",
+		name = "catppuccin",
+		opts = {
+			flavour = "mocha",
+			transparent_background = true,
+			styles = {
+				comments = { "italic" },
+				keywords = { "italic" },
+				types = { "bold" },
+			},
+			integrations = {
+				neotree = true,
+				telescope = { enabled = true },
+				native_lsp = { enabled = true },
+			},
+		},
+	},
 	{
 		"rose-pine/neovim",
 		name = "rose-pine",
