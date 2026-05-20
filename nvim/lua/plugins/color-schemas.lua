@@ -6,6 +6,7 @@ return {
 		opts = {
 			flavour = "mocha",
 			transparent_background = true,
+			term_colors = true,
 			styles = {
 				comments = { "italic" },
 				keywords = { "italic" },
